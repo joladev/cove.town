@@ -1,0 +1,23 @@
+services:
+  spindle:
+    build:
+      context: https://tangled.org/tangled.org/core.git#master
+      dockerfile: localinfra/spindle.Dockerfile
+    restart: always
+    dns:
+      - 1.1.1.1
+      - 9.9.9.9
+    environment:
+      - SPINDLE_SERVER_HOSTNAME=spindle.cove.town
+      - SPINDLE_SERVER_OWNER=did:plc:3pnunm7komgxzfwrrxdtvsvl
+      - SPINDLE_SERVER_DB_PATH=/var/lib/spindle/spindle.db
+      - SPINDLE_SERVER_LOG_DIR=/var/log/spindle
+      - SPINDLE_SERVER_DOCKER_SOCKET=/var/run/docker.sock
+    volumes:
+      - spindle_data:/var/lib/spindle
+      - spindle_logs:/var/log/spindle
+      - /var/run/docker.sock:/var/run/docker.sock
+
+volumes:
+  spindle_data:
+  spindle_logs:
