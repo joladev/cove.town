@@ -14,10 +14,25 @@ services:
       - SPINDLE_SERVER_LOG_DIR=/var/log/spindle
       - SPINDLE_SERVER_DOCKER_SOCKET=/var/run/docker.sock
       - SPINDLE_MICROVM_PIPELINES_IMAGE_DIR=/var/lib/spindle/images
+      - SPINDLE_MICROVM_PIPELINES_OVERLAY_DIR=/var/lib/spindle/overlays
+      - SPINDLE_MICROVM_PIPELINES_ENABLE_KVM=false
+      - SPINDLE_MICROVM_PIPELINES_ENABLE_CGROUPS=false
+      # - SPINDLE_MICROVM_PIPELINES_DEFAULT_IMAGE=<image-name>
+    devices:
+      - /dev/vsock:/dev/vsock
+      - /dev/vhost-vsock:/dev/vhost-vsock
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      - NET_ADMIN
+      - SYS_ADMIN
+    security_opt:
+      - label=disable
+      - seccomp=unconfined
     volumes:
       - spindle_data:/var/lib/spindle
       - spindle_logs:/var/log/spindle
       - /var/run/docker.sock:/var/run/docker.sock
+      - /var/lib/spindle-images:/var/lib/spindle/images:ro
 
 volumes:
   spindle_data:
