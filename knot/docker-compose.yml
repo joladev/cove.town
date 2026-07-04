@@ -14,6 +14,9 @@ services:
       - knot_ssh_keys:/etc/ssh/keys
       - knot_repositories:/home/git/repositories
       - knot_server:/app
+    dns:
+      - 1.1.1.1
+      - 9.9.9.9
 
 volumes:
   knot_ssh_keys:
