@@ -5,6 +5,8 @@ services:
       args:
         DISTROLESS_IMAGE: gcr.io/distroless/cc-debian13:latest@sha256:a017e74bd2a12d98342dbecd33d121d2b160415ed777573dc1808969e989d94d
     restart: always
+    env_file:
+      - .env
     environment:
       - "SERVER_HOST=[::]"
       - PDS_HOSTNAME=pds.cove.town
