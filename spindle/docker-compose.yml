@@ -13,6 +13,7 @@ services:
       - SPINDLE_SERVER_DB_PATH=/var/lib/spindle/spindle.db
       - SPINDLE_SERVER_LOG_DIR=/var/log/spindle
       - SPINDLE_SERVER_DOCKER_SOCKET=/var/run/docker.sock
+      - SPINDLE_MICROVM_PIPELINES_IMAGE_DIR=/var/lib/spindle/images
     volumes:
       - spindle_data:/var/lib/spindle
       - spindle_logs:/var/log/spindle
