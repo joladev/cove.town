@@ -1,0 +1,14 @@
+when:
+  - event: ["push", "manual"]
+    branch: ["main"]
+
+engine: nixery
+
+dependencies:
+  nixpkgs:
+    - yamllint
+
+steps:
+  - name: Lint YAML
+    command: |
+      yamllint -d relaxed .
