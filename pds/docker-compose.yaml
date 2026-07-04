@@ -1,0 +1,20 @@
+services:
+  pds:
+    build:
+      context: https://tangled.org/tranquil.farm/tranquil-pds.git#main
+    restart: always
+    environment:
+      - "SERVER_HOST=[::]"
+      - PDS_HOSTNAME=pds.cove.town
+      - PDS_USER_HANDLE_DOMAINS=cove.town
+      - PDS_BANNED_WORDS=knot,spindle,hold,atcr,s3,garage,www,mail,deploy
+      - INVITE_CODE_REQUIRED=true
+      - DISABLE_ACCOUNT_VERIFICATION_GATE=true
+      - CRAWLERS=https://bsky.network
+    volumes:
+      - blob_data:/var/lib/tranquil-pds/blobs
+      - store_data:/var/lib/tranquil-pds/store
+
+volumes:
+  blob_data:
+  store_data:
