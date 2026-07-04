@@ -18,7 +18,14 @@ services:
     volumes:
       - blob_data:/var/lib/tranquil-pds/blobs
       - store_data:/var/lib/tranquil-pds/store
+    networks:
+      - default
+      - dokploy-network
 
 volumes:
   blob_data:
   store_data:
+
+networks:
+  dokploy-network:
+    external: true
