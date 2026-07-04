@@ -2,6 +2,8 @@ services:
   pds:
     build:
       context: https://tangled.org/tranquil.farm/tranquil-pds.git#main
+      args:
+        DISTROLESS_IMAGE: gcr.io/distroless/cc-debian13:latest@sha256:a017e74bd2a12d98342dbecd33d121d2b160415ed777573dc1808969e989d94d
     restart: always
     environment:
       - "SERVER_HOST=[::]"
