@@ -1,0 +1,21 @@
+services:
+  knot:
+    image: atcr.io/tangled.org/knot:latest
+    restart: always
+    ports:
+      - "22:22"
+    environment:
+      - KNOT_SERVER_HOSTNAME=knot.cove.town
+      - KNOT_SERVER_OWNER=did:plc:3pnunm7komgxzfwrrxdtvsvl
+      - KNOT_SERVER_DB_PATH=/app/knotserver.db
+      - KNOT_REPO_SCAN_PATH=/home/git/repositories
+      - KNOT_SERVER_INTERNAL_LISTEN_ADDR=localhost:5444
+    volumes:
+      - knot_ssh_keys:/etc/ssh/keys
+      - knot_repositories:/home/git/repositories
+      - knot_server:/app
+
+volumes:
+  knot_ssh_keys:
+  knot_repositories:
+  knot_server:
