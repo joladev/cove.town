@@ -21,6 +21,14 @@ services:
     networks:
       - default
       - dokploy-network
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.pds-handles.rule=HostRegexp(`^.+\.cove\.town$`)
+      - traefik.http.routers.pds-handles.entrypoints=websecure
+      - traefik.http.routers.pds-handles.priority=1
+      - traefik.http.routers.pds-handles.tls=true
+      - traefik.http.routers.pds-handles.service=pds-handles
+      - traefik.http.services.pds-handles.loadbalancer.server.port=3000
 
 volumes:
   blob_data:
