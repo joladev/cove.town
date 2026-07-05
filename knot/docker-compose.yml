@@ -1,6 +1,9 @@
 services:
   knot:
-    image: atcr.io/tangled.org/knot:latest
+    build:
+      context: https://tangled.org/tangled.org/knot-docker.git#main
+      args:
+        TAG: master
     restart: always
     ports:
       - "22:22"
