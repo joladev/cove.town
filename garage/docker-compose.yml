@@ -12,6 +12,10 @@ services:
       - default
       - dokploy-network
 
+volumes:
+  garage_meta:
+  garage_data:
+
 networks:
   dokploy-network:
     external: true
