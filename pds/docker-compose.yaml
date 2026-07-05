@@ -1,7 +1,7 @@
 services:
   pds:
     build:
-      context: https://tangled.org/tranquil.farm/tranquil-pds.git#main
+      context: https://tangled.org/tranquil.farm/tranquil-pds.git#8ae9ce9c8ff0dd93e226e647ea87126affb84e85
       args:
         DISTROLESS_IMAGE: gcr.io/distroless/cc-debian13:latest@sha256:a017e74bd2a12d98342dbecd33d121d2b160415ed777573dc1808969e989d94d
     restart: always
