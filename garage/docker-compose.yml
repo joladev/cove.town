@@ -9,8 +9,10 @@ services:
       - garage_meta:/var/lib/garage/meta
       - garage_data:/var/lib/garage/data
     networks:
-      - default
-      - dokploy-network
+      default:
+      dokploy-network:
+        aliases:
+          - spindle-logs.garage
 
 volumes:
   garage_meta:
