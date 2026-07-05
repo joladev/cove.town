@@ -1,7 +1,7 @@
 services:
   spindle:
     build:
-      context: https://tangled.org/tangled.org/core.git#master
+      context: https://tangled.org/tangled.org/core.git#v1.15.0-alpha
       dockerfile: localinfra/spindle.Dockerfile
     restart: always
     dns:
