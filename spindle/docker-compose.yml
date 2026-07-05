@@ -18,6 +18,12 @@ services:
       - SPINDLE_MICROVM_PIPELINES_ENABLE_KVM=false
       - SPINDLE_MICROVM_PIPELINES_ENABLE_CGROUPS=false
       # - SPINDLE_MICROVM_PIPELINES_DEFAULT_IMAGE=<image-name>
+      - SPINDLE_S3_LOG_BUCKET=spindle-logs
+      - AWS_ACCESS_KEY_ID=${ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${SECRET_ACCESS_KEY}
+      - AWS_REGION=garage
+      - AWS_ENDPOINT_URL_S3=http://garage:3900
+      - AWS_ENDPOINT_URL=http://garage:3900
     devices:
       - /dev/vsock:/dev/vsock
       - /dev/vhost-vsock:/dev/vhost-vsock
@@ -33,7 +39,14 @@ services:
       - spindle_logs:/var/log/spindle
       - /var/run/docker.sock:/var/run/docker.sock
       - /var/lib/spindle-images:/var/lib/spindle/images:ro
+    networks:
+      - default
+      - dokploy-network
 
 volumes:
   spindle_data:
   spindle_logs:
+
+networks:
+  dokploy-network:
+    external: true
