@@ -1,6 +1,7 @@
 services:
   operator:
-    image: atcr.io/brookie.blog/pds-operator:latest
+    build:
+      context: https://tangled.org/brookie.blog/pds-operator.git#eb09e7c658ac78170ae93a3e4df4fa132ee79ecd
     env_file: .env
     environment:
       - HOST=0.0.0.0 # required for reverse proxy to reach
