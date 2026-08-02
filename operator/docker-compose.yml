@@ -1,7 +1,7 @@
 services:
   operator:
     build:
-      context: https://tangled.org/brookie.blog/pds-operator.git#eb09e7c658ac78170ae93a3e4df4fa132ee79ecd
+      context: https://tangled.org/brookie.blog/pds-operator.git#e7328bd9b7d702c7e84fc415d4079da7d2745e5a
     env_file: .env
     environment:
       - HOST=0.0.0.0 # required for reverse proxy to reach
