@@ -16,7 +16,7 @@ services:
       # :Z is for selinux hosts (e.g. podman on fedora), harmless elsewhere:
       # - ./data:/data:Z
       # uncomment to change the labeler watchlist without a rebuild:
-      # - ./server/labelers.json:/app/server/labelers.json:ro,Z
+      - ./labelers.json:/app/server/labelers.json:ro
     # runs unprivileged; for the ./data bind mount above, change to the dir's
     # owner with values from `id -u` and `id -g`:
     user: node
