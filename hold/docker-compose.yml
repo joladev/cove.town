@@ -1,0 +1,32 @@
+services:
+  hold:
+    build:
+      context: https://tangled.org/evan.jarrett.net/at-container-registry.git#v0.1.4
+      dockerfile: Dockerfile.hold
+    command: ["serve", "--config", "/config.yml"]
+    restart: always
+    dns:
+      - 1.1.1.1
+      - 9.9.9.9
+    environment:
+      - AWS_ACCESS_KEY_ID=${ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${SECRET_ACCESS_KEY}
+    volumes:
+      - ./config-hold.yml:/config.yml:ro
+      - hold_data:/var/lib/atcr-hold
+    healthcheck:
+      test: ["CMD", "/healthcheck", "http://localhost:8080/xrpc/_health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    networks:
+      - default
+      - dokploy-network
+
+volumes:
+  hold_data:
+
+networks:
+  dokploy-network:
+    external: true

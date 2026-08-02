@@ -1,0 +1,23 @@
+version: "0.1"
+log_level: info
+
+storage:
+  region: garage
+  bucket: atcr-blobs
+  endpoint: https://s3.cove.town
+
+server:
+  addr: ":8080"
+  public_url: https://atcr.cove.town
+  public: false
+  appview_did: did:web:atcr.io
+
+registration:
+  owner_did: did:plc:3pnunm7komgxzfwrrxdtvsvl
+
+database:
+  path: /var/lib/atcr-hold
+  did_method: web
+
+admin:
+  enabled: true
