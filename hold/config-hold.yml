@@ -18,6 +18,7 @@ registration:
 database:
   path: /var/lib/atcr-hold
   did_method: plc
+  did: did:plc:llcuwb3v332jns5i23lue7g3
 
 admin:
   enabled: true
