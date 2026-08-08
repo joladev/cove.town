@@ -4,21 +4,19 @@ when:
     paths:
       - "castaway/**"
 
-engine: microvm
-image: nixos
+engine: nixery
 
 dependencies:
-  - kaniko
+  nixpkgs:
+    - kaniko
 
 steps:
   - name: build and push
     command: |
-      export DOCKER_CONFIG="$HOME/.docker"
+      set -euo pipefail
+      export DOCKER_CONFIG=/tmp/docker-config
       mkdir -p "$DOCKER_CONFIG"
-      printf '{"auths":{"atcr.io":{"auth":"%s"}}}' \
-        "$(echo -n "ci.cove.town:$CI_BOT_PASSWORD" | base64 -w0)" \
-        > "$DOCKER_CONFIG/config.json"
-      TAG=$(git rev-parse --short HEAD)
+      printf '{"auths":{"atcr.io":{"auth":"%s"}}}' "$(echo -n "ferry.cove.town:$CI_BOT_PASSWORD" | base64 -w0)" > "$DOCKER_CONFIG/config.json"
       kaniko --context ./castaway --dockerfile ./castaway/Dockerfile \
-        --destination "atcr.io/ci.cove.town/castaway:$TAG" \
-        --destination "atcr.io/ci.cove.town/castaway:latest"
+        --destination "atcr.io/ferry.cove.town/castaway:$TANGLED_SHA" \
+        --destination "atcr.io/ferry.cove.town/castaway:latest"
