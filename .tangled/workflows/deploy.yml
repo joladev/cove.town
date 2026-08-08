@@ -9,6 +9,7 @@ engine: nixery
 dependencies:
   nixpkgs:
     - kaniko
+    - curl
 
 steps:
   - name: build and push
@@ -23,4 +24,4 @@ steps:
 
   - name: trigger redeploy
     command: |
-      curl -fsS -X POST "$DOKPLOY_WEBHOOK_URL"
+      curl -fsS -X POST "$DOKPLOY_WEBHOOK_CASTAWAY"
