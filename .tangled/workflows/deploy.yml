@@ -20,3 +20,7 @@ steps:
       executor --context ./castaway --dockerfile ./castaway/Dockerfile \
         --destination "atcr.io/ferry.cove.town/castaway:$TANGLED_SHA" \
         --destination "atcr.io/ferry.cove.town/castaway:latest"
+
+  - name: trigger redeploy
+    command: |
+      curl -fsS -X POST "$DOKPLOY_WEBHOOK_URL"
