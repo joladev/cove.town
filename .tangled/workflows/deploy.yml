@@ -17,6 +17,6 @@ steps:
       export DOCKER_CONFIG=/tmp/docker-config
       mkdir -p "$DOCKER_CONFIG"
       printf '{"auths":{"atcr.io":{"auth":"%s"}}}' "$(echo -n "ferry.cove.town:$CI_BOT_PASSWORD" | base64 -w0)" > "$DOCKER_CONFIG/config.json"
-      kaniko --context ./castaway --dockerfile ./castaway/Dockerfile \
+      executor --context ./castaway --dockerfile ./castaway/Dockerfile \
         --destination "atcr.io/ferry.cove.town/castaway:$TANGLED_SHA" \
         --destination "atcr.io/ferry.cove.town/castaway:latest"
