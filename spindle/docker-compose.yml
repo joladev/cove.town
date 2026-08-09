@@ -3,6 +3,7 @@ services:
     image: atcr.io/cove.town/spindle:latest
     pull_policy: always
     restart: always
+    stop_grace_period: 10m
     dns:
       - 1.1.1.1
       - 9.9.9.9
