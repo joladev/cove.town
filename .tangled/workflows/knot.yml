@@ -1,0 +1,33 @@
+when:
+  - event: ["push"]
+    branch: ["main"]
+    paths:
+      - ".tangled/workflows/knot.yml"
+
+engine: nixery
+
+environment:
+  VERSION: v1.16.1-alpha
+
+dependencies:
+  nixpkgs:
+    - docker-client
+    - curl
+
+steps:
+  - name: build and push
+    command: |
+      set -euo pipefail
+      echo "$CI_BOT_PASSWORD" | docker login atcr.io -u cove.town --password-stdin
+      git clone https://tangled.org/tangled.org/knot-docker.git /tmp/src
+      docker build \
+        --build-arg "TAG=$VERSION" \
+        -t "atcr.io/cove.town/knot:$VERSION" \
+        -t "atcr.io/cove.town/knot:latest" \
+        /tmp/src
+      docker push "atcr.io/cove.town/knot:$VERSION"
+      docker push "atcr.io/cove.town/knot:latest"
+
+  - name: trigger redeploy
+    command: |
+      curl -fsS -X POST "$DOKPLOY_WEBHOOK_KNOT"
