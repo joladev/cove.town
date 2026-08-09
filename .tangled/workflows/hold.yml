@@ -1,0 +1,34 @@
+when:
+  - event: ["push"]
+    branch: ["main"]
+    paths:
+      - ".tangled/workflows/hold.yml"
+
+engine: nixery
+
+environment:
+  VERSION: v0.1.4
+
+dependencies:
+  nixpkgs:
+    - docker-client
+    - curl
+
+steps:
+  - name: build and push
+    command: |
+      set -euo pipefail
+      echo "$CI_BOT_PASSWORD" | docker login atcr.io -u cove.town --password-stdin
+      git clone https://tangled.org/evan.jarrett.net/at-container-registry.git /tmp/src
+      git -C /tmp/src checkout "$VERSION"
+      docker build \
+        -f /tmp/src/Dockerfile.hold \
+        -t "atcr.io/cove.town/hold:$VERSION" \
+        -t "atcr.io/cove.town/hold:latest" \
+        /tmp/src
+      docker push "atcr.io/cove.town/hold:$VERSION"
+      docker push "atcr.io/cove.town/hold:latest"
+
+  - name: trigger redeploy
+    command: |
+      curl -fsS -X POST "$DOKPLOY_WEBHOOK_HOLD"
