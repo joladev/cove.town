@@ -3,13 +3,18 @@ services:
     image: atcr.io/cove.town/tranquil-pds:latest
     pull_policy: always
     restart: always
+    healthcheck:
+      test: ["CMD", "/usr/local/bin/tranquil-pds", "healthcheck"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
     env_file:
       - .env
     environment:
       - "SERVER_HOST=[::]"
       - PDS_HOSTNAME=pds.cove.town
       - PDS_USER_HANDLE_DOMAINS=cove.town
-      - PDS_BANNED_WORDS=knot,spindle,hold,atcr,s3,garage,www,mail,deploy
+      - PDS_BANNED_WORDS=knot,spindle,hold,atcr,s3,garage,www,mail,deploy,pds,api,admin,auth,login,traefik,dashboard
       - INVITE_CODE_REQUIRED=true
       - DISABLE_ACCOUNT_VERIFICATION_GATE=true
     volumes:

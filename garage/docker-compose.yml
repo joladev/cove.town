@@ -2,6 +2,11 @@ services:
   garage:
     image: dxflrs/garage:v2.3.0
     restart: always
+    healthcheck:
+      test: ["CMD", "/garage", "-c", "/etc/garage.toml", "status"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
     environment:
       - GARAGE_RPC_SECRET=${GARAGE_RPC_SECRET}
     volumes:

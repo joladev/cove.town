@@ -3,6 +3,11 @@ services:
     image: atcr.io/cove.town/knot:latest
     pull_policy: always
     restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:5555/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
     ports:
       - "22:22"
     environment:
