@@ -1,8 +1,7 @@
 services:
   hold:
-    build:
-      context: https://tangled.org/evan.jarrett.net/at-container-registry.git#v0.1.4
-      dockerfile: Dockerfile.hold
+    image: atcr.io/cove.town/hold:latest
+    pull_policy: always
     command: ["serve", "--config", "/config.yml"]
     restart: always
     dns:

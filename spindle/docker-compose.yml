@@ -1,8 +1,7 @@
 services:
   spindle:
-    build:
-      context: https://tangled.org/tangled.org/core.git#v1.16.1-alpha
-      dockerfile: localinfra/spindle.Dockerfile
+    image: atcr.io/cove.town/spindle:latest
+    pull_policy: always
     restart: always
     dns:
       - 1.1.1.1

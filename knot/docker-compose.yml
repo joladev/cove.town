@@ -1,7 +1,7 @@
 services:
   knot:
-    build:
-      context: https://tangled.org/tangled.org/knot-docker.git#e09d5da4f6de3a5fe456ad085298ae85257b13e3
+    image: atcr.io/cove.town/knot:latest
+    pull_policy: always
     restart: always
     ports:
       - "22:22"
