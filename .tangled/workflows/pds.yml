@@ -21,13 +21,12 @@ steps:
       echo "$CI_BOT_PASSWORD" | docker login atcr.io -u cove.town --password-stdin
       git clone https://tangled.org/tranquil.farm/tranquil-pds.git /tmp/src
       git -C /tmp/src checkout "$VERSION"
-      SRC_REF=$(git -C /tmp/src describe --tags --exact-match 2>/dev/null || git -C /tmp/src rev-parse --short HEAD)
       docker build \
         --build-arg "DISTROLESS_IMAGE=gcr.io/distroless/cc-debian13:latest@sha256:a017e74bd2a12d98342dbecd33d121d2b160415ed777573dc1808969e989d94d" \
-        -t "atcr.io/cove.town/tranquil-pds:$SRC_REF" \
+        -t "atcr.io/cove.town/tranquil-pds:$VERSION" \
         -t "atcr.io/cove.town/tranquil-pds:latest" \
         /tmp/src
-      docker push "atcr.io/cove.town/tranquil-pds:$SRC_REF"
+      docker push "atcr.io/cove.town/tranquil-pds:$VERSION"
       docker push "atcr.io/cove.town/tranquil-pds:latest"
 
   - name: trigger redeploy
