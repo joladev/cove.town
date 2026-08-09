@@ -5,6 +5,7 @@ storage:
   region: garage
   bucket: atcr-blobs
   endpoint: https://s3.cove.town
+  pull_zone: https://s3-cove-town.b-cdn.net
 
 server:
   addr: ":8080"
