@@ -9,7 +9,7 @@ storage:
 server:
   addr: ":8080"
   public_url: https://hold.cove.town
-  public: false
+  public: true
   appview_did: did:web:atcr.io
 
 registration:
