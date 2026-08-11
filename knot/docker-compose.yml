@@ -23,6 +23,9 @@ services:
     dns:
       - 1.1.1.1
       - 9.9.9.9
+    labels:
+      - observability.enable=true
+      - observability.service=knot
 
 volumes:
   knot_ssh_keys:

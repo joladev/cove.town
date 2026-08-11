@@ -18,6 +18,9 @@ services:
       dokploy-network:
         aliases:
           - spindle-logs.garage
+    labels:
+      - observability.enable=true
+      - observability.service=garage
 
 volumes:
   garage_meta:

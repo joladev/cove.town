@@ -48,6 +48,9 @@ services:
     networks:
       - default
       - dokploy-network
+    labels:
+      - observability.enable=true
+      - observability.service=spindle
 
 volumes:
   spindle_data:

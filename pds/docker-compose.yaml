@@ -31,6 +31,8 @@ services:
       - traefik.http.routers.pds-handles.tls=true
       - traefik.http.routers.pds-handles.service=pds-handles
       - traefik.http.services.pds-handles.loadbalancer.server.port=3000
+      - observability.enable=true
+      - observability.service=pds
 
 volumes:
   blob_data:

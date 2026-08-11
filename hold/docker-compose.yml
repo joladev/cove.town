@@ -23,6 +23,9 @@ services:
     networks:
       - default
       - dokploy-network
+    labels:
+      - observability.enable=true
+      - observability.service=hold
 
 volumes:
   hold_data:
