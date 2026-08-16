@@ -16,10 +16,14 @@
   li::before { content:"⛵"; margin-right:.5rem; font-size:.85em; }
   a { color:#2b8a7d; font-weight:600; text-decoration:none; border-bottom:2px solid #ffd9a8; }
   a:hover { color:#e2705c; border-bottom-color:#e2705c; }
-  .shore { display:block; width:100%; }
+  .shore { display:block; width:100%; min-height:220px; }
   .boat { animation: bob 4.5s ease-in-out infinite; transform-origin:50% 80%; }
   @keyframes bob { 0%,100% { transform: translateY(0) rotate(-1.5deg);} 50% { transform: translateY(-6px) rotate(1.5deg);} }
   @media (prefers-reduced-motion: reduce) { .boat { animation:none; } }
+  @media (max-width: 640px) {
+    main { padding-top: 18vh; }
+    .shore { min-height: 180px; }
+  }
 </style>
 </head>
 <body>
