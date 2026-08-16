@@ -21,6 +21,8 @@ services:
     labels:
       - observability.enable=true
       - observability.service=garage
+      - observability.metrics.port=3903
+      - observability.metrics.path=/metrics
 
 volumes:
   garage_meta:
