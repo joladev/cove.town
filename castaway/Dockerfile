@@ -1,3 +1,3 @@
 FROM busybox:musl
-COPY src/index.html /www/index.html
+COPY src/ /www/
 CMD ["httpd", "-f", "-p", "8080", "-h", "/www"]
