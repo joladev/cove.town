@@ -1,1 +1,56 @@
-hello
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>cove.town</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: ui-rounded, "SF Pro Rounded", "Hiragino Maru Gothic ProN", system-ui, sans-serif; color:#2f5d63; background:#fdf6e9; min-height:100vh; display:flex; flex-direction:column; }
+  main { flex:1; display:flex; align-items:center; justify-content:center; padding:2rem 1.5rem; }
+  .content { max-width:560px; }
+  h1 { font-size:2.2rem; margin-bottom:.6rem; }
+  p { line-height:1.7; margin-bottom:1.2rem; }
+  h2 { font-size:1rem; margin-bottom:.5rem; }
+  ul { list-style:none; display:grid; grid-template-columns:1fr 1fr; gap:.35rem 1.5rem; }
+  li::before { content:"⛵"; margin-right:.5rem; font-size:.85em; }
+  a { color:#2b8a7d; font-weight:600; text-decoration:none; border-bottom:2px solid #ffd9a8; }
+  a:hover { color:#e2705c; border-bottom-color:#e2705c; }
+  .shore { display:block; width:100%; }
+  .boat { animation: bob 4.5s ease-in-out infinite; transform-origin:50% 80%; }
+  @keyframes bob { 0%,100% { transform: translateY(0) rotate(-1.5deg);} 50% { transform: translateY(-6px) rotate(1.5deg);} }
+  @media (prefers-reduced-motion: reduce) { .boat { animation:none; } }
+</style>
+</head>
+<body>
+<main>
+  <div class="content">
+    <h1>🏝️ cove.town</h1>
+    <p><strong>cove.town</strong> consists of a PDS, a knot, a spindle, and a hold, and is fully built on itself. The source code is hosted on the knot, updates trigger workflows running on the spindle that build container images hosted on the hold, and the accounts that own the services live on the PDS.</p>
+    <h2>Live services</h2>
+    <ul>
+      <li>PDS — <a href="https://pds.cove.town">pds.cove.town</a></li>
+      <li>Knot — <a href="https://knot.cove.town">knot.cove.town</a></li>
+      <li>Spindle — <a href="https://spindle.cove.town">spindle.cove.town</a></li>
+      <li>Hold — <a href="https://hold.cove.town">hold.cove.town</a></li>
+    </ul>
+  </div>
+</main>
+<svg class="shore" viewBox="0 0 1440 260" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+  <rect width="1440" height="260" fill="#aee0d6"/>
+  <path d="M0 40 Q120 20 240 40 T480 40 T720 40 T960 40 T1200 40 T1440 40 V110 H0 Z" fill="#8fd3c7"/>
+  <path d="M0 90 Q120 70 240 90 T480 90 T720 90 T960 90 T1200 90 T1440 90 V160 H0 Z" fill="#63b8ab"/>
+  <g class="boat">
+    <path d="M660 108 Q720 138 780 108 L768 144 Q720 164 672 144 Z" fill="#b5793f"/>
+    <rect x="717" y="6" width="7" height="106" rx="3" fill="#8a5a33"/>
+    <path d="M727 14 L727 100 L800 100 Z" fill="#fff8e7"/>
+    <path d="M713 18 L713 100 L650 100 Z" fill="#ffb4a2"/>
+  </g>
+  <path d="M330 30 q10 -12 20 0 q10 -12 20 0" stroke="#5b8a91" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+  <path d="M1060 44 q9 -11 18 0 q9 -11 18 0" stroke="#5b8a91" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+  <path d="M0 200 Q360 160 720 200 T1440 200 V260 H0 Z" fill="#f2dfa8"/>
+  <circle cx="180" cy="228" r="10" fill="#ffb4a2"/>
+  <path d="M180 218 L180 204 M170 224 L156 218 M190 224 L204 218 M174 234 L164 244 M186 234 L196 244" stroke="#e2705c" stroke-width="3" stroke-linecap="round"/>
+</svg>
+</body>
+</html>
