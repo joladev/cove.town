@@ -28,11 +28,11 @@ services:
       - MAIL_SMARTHOST_TLS=${MAIL_SMARTHOST_TLS}
       - MAIL_SMARTHOST_USERNAME=${MAIL_SMARTHOST_USERNAME}
       - MAIL_SMARTHOST_PASSWORD=${MAIL_SMARTHOST_PASSWORD}
+      - MAIL_REQUIRE_TLS=true
       - PLC_ROTATION_KEY=${PLC_ROTATION_KEY}
 
     volumes:
       - blob_data:/var/lib/tranquil-pds/blobs
-      - store_data:/var/lib/tranquil-pds/store
     networks:
       - default
       - dokploy-network
@@ -49,7 +49,6 @@ services:
 
 volumes:
   blob_data:
-  store_data:
 
 networks:
   dokploy-network:
