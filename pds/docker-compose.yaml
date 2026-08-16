@@ -8,15 +8,28 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
-    env_file:
-      - .env
     environment:
-      - "SERVER_HOST=[::]"
-      - PDS_HOSTNAME=pds.cove.town
-      - PDS_USER_HANDLE_DOMAINS=cove.town
-      - PDS_BANNED_WORDS=knot,spindle,hold,atcr,s3,garage,www,mail,deploy,pds,api,admin,auth,login,traefik,dashboard
-      - INVITE_CODE_REQUIRED=true
-      - DISABLE_ACCOUNT_VERIFICATION_GATE=true
+      - SERVER_HOST=${SERVER_HOST}
+      - PDS_HOSTNAME=${PDS_HOSTNAME}
+      - PDS_USER_HANDLE_DOMAINS=${PDS_USER_HANDLE_DOMAINS}
+      - PDS_BANNED_WORDS=${PDS_BANNED_WORDS}
+      - INVITE_CODE_REQUIRED=${INVITE_CODE_REQUIRED}
+      - DISABLE_ACCOUNT_VERIFICATION_GATE=${DISABLE_ACCOUNT_VERIFICATION_GATE}
+      - CONTACT_EMAIL=${CONTACT_EMAIL}
+      - CRAWLERS=${CRAWLERS}
+      - DATABASE_URL=${DATABASE_URL}
+      - JWT_SECRET=${JWT_SECRET}
+      - DPOP_SECRET=${DPOP_SECRET}
+      - MASTER_KEY=${MASTER_KEY}
+      - MAIL_FROM_ADDRESS=${MAIL_FROM_ADDRESS}
+      - MAIL_FROM_NAME=${MAIL_FROM_NAME}
+      - MAIL_SMARTHOST_HOST=${MAIL_SMARTHOST_HOST}
+      - MAIL_SMARTHOST_PORT=${MAIL_SMARTHOST_PORT}
+      - MAIL_SMARTHOST_TLS=${MAIL_SMARTHOST_TLS}
+      - MAIL_SMARTHOST_USERNAME=${MAIL_SMARTHOST_USERNAME}
+      - MAIL_SMARTHOST_PASSWORD=${MAIL_SMARTHOST_PASSWORD}
+      - PLC_ROTATION_KEY=${PLC_ROTATION_KEY}
+
     volumes:
       - blob_data:/var/lib/tranquil-pds/blobs
       - store_data:/var/lib/tranquil-pds/store
