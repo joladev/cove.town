@@ -36,9 +36,6 @@ services:
       - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
       - AWS_REGION=${AWS_REGION}
-
-    volumes:
-      - blob_data:/var/lib/tranquil-pds/blobs
     networks:
       - default
       - dokploy-network
@@ -52,9 +49,6 @@ services:
       - traefik.http.services.pds-handles.loadbalancer.server.port=3000
       - observability.enable=true
       - observability.service=pds
-
-volumes:
-  blob_data:
 
 networks:
   dokploy-network:
