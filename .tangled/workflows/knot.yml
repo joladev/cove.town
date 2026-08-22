@@ -19,12 +19,17 @@ steps:
     command: |
       set -euo pipefail
       echo "$CI_BOT_PASSWORD" | docker login atcr.io -u cove.town --password-stdin
-      git clone https://tangled.org/tangled.org/knot-docker.git /tmp/src
+      git clone https://tangled.org/tangled.org/core.git /tmp/src
+      git -C /tmp/src checkout "$VERSION"
+      # The Containerfile is pinned to an amd64 image
+      sed -i 's|gcr.io/distroless/cc-debian13:latest@sha256:[a-f0-9]*|gcr.io/distroless/cc-debian13:latest|' /tmp/src/knot2/Containerfile
       docker build \
-        --build-arg "TAG=$VERSION" \
+        -f /tmp/src/knot2/Containerfile \
         -t "atcr.io/cove.town/knot:$VERSION" \
         -t "atcr.io/cove.town/knot:latest" \
         /tmp/src
+      # Don't silently produce an amd64 file
+      test "$(docker image inspect atcr.io/cove.town/knot:$VERSION --format '{{.Architecture}}')" = "arm64"
       docker push "atcr.io/cove.town/knot:$VERSION"
       docker push "atcr.io/cove.town/knot:latest"
 
