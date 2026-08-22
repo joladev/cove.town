@@ -1,14 +1,14 @@
 [server]
 listen_addr = "[::]:5555"
 ssh_listen_addr = "[::]:2222"
-ssh_host_key_file = "/data/ssh/host_key"
+ssh_host_key_file = "/data/ssh_host_key"
 appview_endpoint = "https://tangled.org"
 
 [repo]
 scan_path = "/data/repos"
 
 [secrets]
-sealed_key_file = "/data/secrets/sealed.bin"
+sealed_key_file = "/data/sealed-keys"
 master_key_env = "KNOT_MASTER_KEY"
 
 [atproto]
