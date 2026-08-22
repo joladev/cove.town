@@ -1,33 +1,20 @@
 services:
   knot:
-    image: atcr.io/cove.town/knot:latest
-    pull_policy: always
+    image: knot2:local
+    pull_policy: never
     restart: always
-    healthcheck:
-      test: ["CMD", "curl", "-fsS", "http://localhost:5555/"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
     ports:
-      - "22:22"
+      - "22:2222"
     environment:
-      - KNOT_SERVER_HOSTNAME=knot.cove.town
-      - KNOT_SERVER_OWNER=did:plc:3pnunm7komgxzfwrrxdtvsvl
-      - KNOT_SERVER_DB_PATH=/app/knotserver.db
-      - KNOT_REPO_SCAN_PATH=/home/git/repositories
-      - KNOT_SERVER_INTERNAL_LISTEN_ADDR=localhost:5444
+      - KNOT_MASTER_KEY=${KNOT_MASTER_KEY}
+      - KNOT_HOSTNAME=${KNOT_HOSTNAME}
+      - KNOT_ADMINS=${KNOT_ADMINS}
     volumes:
-      - knot_ssh_keys:/etc/ssh/keys
-      - knot_repositories:/home/git/repositories
-      - knot_server:/app
-    dns:
-      - 1.1.1.1
-      - 9.9.9.9
+      - ./config.toml:/etc/knot/config.toml:ro
+      - knot_data:/data
     labels:
       - observability.enable=true
       - observability.service=knot
 
 volumes:
-  knot_ssh_keys:
-  knot_repositories:
-  knot_server:
+  knot_data:
