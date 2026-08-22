@@ -13,6 +13,7 @@ dependencies:
   nixpkgs:
     - docker-client
     - curl
+    - gnused
 
 steps:
   - name: build and push
