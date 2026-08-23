@@ -30,6 +30,7 @@ services:
       - AWS_REGION=garage
       - AWS_ENDPOINT_URL_S3=http://garage:3900
       - AWS_ENDPOINT_URL=http://garage:3900
+      - SPINDLE_NIXERY_PIPELINES_NIXERY=${SPINDLE_NIXERY_PIPELINES_NIXERY}
     devices:
       - /dev/vsock:/dev/vsock
       - /dev/vhost-vsock:/dev/vhost-vsock
