@@ -13,13 +13,8 @@ services:
       - S3_ACCESS_KEY=${S3_ACCESS_KEY}
       - S3_SECRET_KEY=${S3_SECRET_KEY}
       - AWS_REGION=garage
-    volumes:
-      - nixery_data:/var/lib/nixery
     ports:
       - "127.0.0.1:8087:8080"
     labels:
       - observability.enable=true
       - observability.service=nixery
-
-volumes:
-  nixery_data:
