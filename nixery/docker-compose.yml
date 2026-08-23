@@ -4,11 +4,15 @@ services:
     restart: always
     environment:
       - PORT=8080
-      - NIXERY_STORAGE_BACKEND=filesystem
-      - STORAGE_PATH=/var/lib/nixery
       - NIXERY_CHANNEL=nixos-unstable
       - NIX_TIMEOUT=60
       - WEB_DIR=/dev/null
+      - NIXERY_STORAGE_BACKEND=s3
+      - S3_BUCKET=nixery-cache
+      - S3_ENDPOINT=https://s3.cove.town
+      - S3_ACCESS_KEY=${S3_ACCESS_KEY}
+      - S3_SECRET_KEY=${S3_SECRET_KEY}
+      - AWS_REGION=garage
     volumes:
       - nixery_data:/var/lib/nixery
     ports:
