@@ -49,6 +49,8 @@ services:
       - traefik.http.services.pds-handles.loadbalancer.server.port=3000
       - observability.enable=true
       - observability.service=pds
+      - observability.metrics.port=3000
+      - observability.metrics.path=/metrics
 
 networks:
   dokploy-network:
