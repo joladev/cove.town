@@ -7,7 +7,7 @@ when:
 engine: nixery
 
 environment:
-  VERSION: v1.16.1-alpha
+  VERSION: e23afea
 
 dependencies:
   nixpkgs:
