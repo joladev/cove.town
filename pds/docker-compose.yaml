@@ -41,12 +41,21 @@ services:
       - dokploy-network
     labels:
       - traefik.enable=true
+      # Wildcard user handle routes
       - traefik.http.routers.pds-handles.rule=HostRegexp(`^.+\.cove\.town$`)
       - traefik.http.routers.pds-handles.entrypoints=websecure
       - traefik.http.routers.pds-handles.priority=1
       - traefik.http.routers.pds-handles.tls=true
       - traefik.http.routers.pds-handles.service=pds-handles
       - traefik.http.services.pds-handles.loadbalancer.server.port=3000
+      # Disable public access to the metrics endpoint
+      - traefik.http.routers.pds-metrics-gate.rule=PathPrefix(`/metrics`)
+      - traefik.http.routers.pds-metrics-gate.priority=100
+      - traefik.http.routers.pds-metrics-gate.entrypoints=websecure
+      - traefik.http.routers.pds-metrics-gate.tls=true
+      - traefik.http.routers.pds-metrics-gate.service=noop@internal
+      - traefik.http.routers.pds-metrics-gate.middlewares=pds-metrics-block
+      - traefik.http.middlewares.pds-metrics-block.ipallowlist.sourcerange=127.0.0.1/32
       - observability.enable=true
       - observability.service=pds
       - observability.metrics.port=3000
