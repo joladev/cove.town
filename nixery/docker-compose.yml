@@ -1,0 +1,21 @@
+services:
+  nixery:
+    build: .
+    restart: always
+    environment:
+      - PORT=8080
+      - NIXERY_STORAGE_BACKEND=filesystem
+      - STORAGE_PATH=/var/lib/nixery
+      - NIXERY_CHANNEL=nixos-unstable
+      - NIX_TIMEOUT=60
+      - WEB_DIR=/dev/null
+    volumes:
+      - nixery_data:/var/lib/nixery
+    ports:
+      - "127.0.0.1:8080:8080"
+    labels:
+      - observability.enable=true
+      - observability.service=nixery
+
+volumes:
+  nixery_data:
