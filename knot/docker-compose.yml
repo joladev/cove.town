@@ -1,7 +1,7 @@
 services:
   knot:
-    image: knot2:local
-    pull_policy: never
+    image: atcr.io/cove.town/knot:latest
+    pull_policy: always
     restart: always
     ports:
       - "22:2222"
