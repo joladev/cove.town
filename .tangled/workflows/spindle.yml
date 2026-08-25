@@ -14,7 +14,10 @@ dependencies:
   nixpkgs:
     - go-containerregistry
     - gnutar
+  github:nixos/nixpkgs:
+    - bash
     - curl
+    - cacert
 
 steps:
   - name: build and push
@@ -33,11 +36,11 @@ steps:
         --ignore-path /tmp/docker-config \
         --ignore-path /tangled \
         --ignore-path /nix \
-        --ignore-path /bin/curl \
-        --ignore-path /etc/ssl/certs/ca-bundle.crt \
         --destination "atcr.io/cove.town/spindle:$VERSION" \
         --destination "atcr.io/cove.town/spindle:latest"
 
   - name: trigger redeploy
+    environment:
+      SSL_CERT_FILE: /tangled/home/.nix-profile/etc/ssl/certs/ca-bundle.crt
     command: |
       curl -fsS -X POST "$DOKPLOY_WEBHOOK_SPINDLE"
