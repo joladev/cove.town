@@ -3,22 +3,32 @@ when:
     branch: ["main"]
     paths:
       - "castaway/**"
+      - ".tangled/workflows/deploy.yml"
 
 engine: nixery
 
+environment:
+  KANIKO_IMAGE: ghcr.io/osscontainertools/kaniko:v1.28.3@sha256:779f463aaa3219151ceff518249aa043a60bcb09a17fab58b915f63c678ecde6
+
 dependencies:
   nixpkgs:
-    - kaniko
+    - go-containerregistry
+    - gnutar
     - curl
 
 steps:
   - name: build and push
     command: |
       set -euo pipefail
+      crane export --platform linux/arm64 "$KANIKO_IMAGE" - | tar -xf - -C /tmp kaniko/executor
       export DOCKER_CONFIG=/tmp/docker-config
       mkdir -p "$DOCKER_CONFIG"
-      printf '{"auths":{"atcr.io":{"auth":"%s"}}}' "$(echo -n "cove.town:$CI_BOT_PASSWORD" | base64 -w0)" > "$DOCKER_CONFIG/config.json"
-      executor --context ./castaway --dockerfile ./castaway/Dockerfile \
+      echo "$CI_BOT_PASSWORD" | /tmp/kaniko/executor login atcr.io -u cove.town --password-stdin
+      /tmp/kaniko/executor \
+        --context ./castaway \
+        --dockerfile ./castaway/Dockerfile \
+        --ignore-path "$(pwd)/castaway" \
+        --ignore-path /tmp/docker-config \
         --destination "atcr.io/cove.town/castaway:$TANGLED_SHA" \
         --destination "atcr.io/cove.town/castaway:latest"
 
