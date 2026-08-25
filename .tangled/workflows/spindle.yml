@@ -31,6 +31,7 @@ steps:
         --dockerfile /tmp/src/localinfra/spindle.Dockerfile \
         --ignore-path /tmp/src \
         --ignore-path /tmp/docker-config \
+        --ignore-path /tangled \
         --destination "atcr.io/cove.town/spindle:$VERSION" \
         --destination "atcr.io/cove.town/spindle:latest"
 
