@@ -9,7 +9,6 @@ engine: nixery
 environment:
   VERSION: bc751b0ee2fef8dfebb5c36775b5aa672e5d086d
   KANIKO_IMAGE: ghcr.io/osscontainertools/kaniko:v1.28.3@sha256:779f463aaa3219151ceff518249aa043a60bcb09a17fab58b915f63c678ecde6
-  SSL_CERT_FILE: /tangled/home/.nix-profile/etc/ssl/certs/ca-bundle.crt
 
 dependencies:
   nixpkgs:
@@ -41,5 +40,7 @@ steps:
         --destination "atcr.io/cove.town/tranquil-pds:latest"
 
   - name: trigger redeploy
+    environment:
+      SSL_CERT_FILE: /tangled/home/.nix-profile/etc/ssl/certs/ca-bundle.crt
     command: |
       curl -fsS -X POST "$DOKPLOY_WEBHOOK_PDS"
