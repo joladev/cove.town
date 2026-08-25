@@ -33,6 +33,8 @@ steps:
         --ignore-path /tmp/docker-config \
         --ignore-path /tangled \
         --ignore-path /nix \
+        --ignore-path /bin/curl \
+        --ignore-path /etc/ssl/certs/ca-bundle.crt \
         --destination "atcr.io/cove.town/spindle:$VERSION" \
         --destination "atcr.io/cove.town/spindle:latest"
 
