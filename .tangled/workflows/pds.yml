@@ -8,26 +8,36 @@ engine: nixery
 
 environment:
   VERSION: bc751b0ee2fef8dfebb5c36775b5aa672e5d086d
+  KANIKO_IMAGE: ghcr.io/osscontainertools/kaniko:v1.28.3@sha256:779f463aaa3219151ceff518249aa043a60bcb09a17fab58b915f63c678ecde6
 
 dependencies:
   nixpkgs:
-    - docker-client
+    - go-containerregistry
+    - gnutar
     - curl
 
 steps:
   - name: build and push
     command: |
       set -euo pipefail
-      echo "$CI_BOT_PASSWORD" | docker login atcr.io -u cove.town --password-stdin
+      crane export --platform linux/arm64 "$KANIKO_IMAGE" - | tar -xf - -C /tmp kaniko/executor
+      export DOCKER_CONFIG=/tmp/docker-config
+      mkdir -p "$DOCKER_CONFIG"
+      echo "$CI_BOT_PASSWORD" | /tmp/kaniko/executor login atcr.io -u cove.town --password-stdin
       git clone https://tangled.org/tranquil.farm/tranquil-pds.git /tmp/src
       git -C /tmp/src checkout "$VERSION"
-      docker build \
+      /tmp/kaniko/executor \
+        --context /tmp/src \
+        --ignore-path /tmp/src \
+        --ignore-path /tmp/docker-config \
+        --ignore-path /tangled \
+        --ignore-path /nix \
+        --ignore-path /bin/curl \
+        --ignore-path /bin/bash \
+        --ignore-path /etc/ssl/certs/ca-bundle.crt \
         --build-arg "DISTROLESS_IMAGE=gcr.io/distroless/cc-debian13:latest@sha256:a017e74bd2a12d98342dbecd33d121d2b160415ed777573dc1808969e989d94d" \
-        -t "atcr.io/cove.town/tranquil-pds:$VERSION" \
-        -t "atcr.io/cove.town/tranquil-pds:latest" \
-        /tmp/src
-      docker push "atcr.io/cove.town/tranquil-pds:$VERSION"
-      docker push "atcr.io/cove.town/tranquil-pds:latest"
+        --destination "atcr.io/cove.town/tranquil-pds:$VERSION" \
+        --destination "atcr.io/cove.town/tranquil-pds:latest"
 
   - name: trigger redeploy
     command: |
