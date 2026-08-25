@@ -8,26 +8,31 @@ engine: nixery
 
 environment:
   VERSION: v1.16.1-alpha
+  KANIKO_IMAGE: ghcr.io/osscontainertools/kaniko:v1.28.3@sha256:779f463aaa3219151ceff518249aa043a60bcb09a17fab58b915f63c678ecde6
 
 dependencies:
   nixpkgs:
-    - docker-client
+    - go-containerregistry
+    - gnutar
     - curl
 
 steps:
   - name: build and push
     command: |
       set -euo pipefail
-      echo "$CI_BOT_PASSWORD" | docker login atcr.io -u cove.town --password-stdin
+      crane export --platform linux/arm64 "$KANIKO_IMAGE" - | tar -xf - -C /tmp kaniko/executor
+      export DOCKER_CONFIG=/tmp/docker-config
+      mkdir -p "$DOCKER_CONFIG"
+      echo "$CI_BOT_PASSWORD" | /tmp/kaniko/executor login atcr.io -u cove.town --password-stdin
       git clone https://tangled.org/tangled.org/core.git /tmp/src
       git -C /tmp/src checkout "$VERSION"
-      docker build \
-        -f /tmp/src/localinfra/spindle.Dockerfile \
-        -t "atcr.io/cove.town/spindle:$VERSION" \
-        -t "atcr.io/cove.town/spindle:latest" \
-        /tmp/src
-      docker push "atcr.io/cove.town/spindle:$VERSION"
-      docker push "atcr.io/cove.town/spindle:latest"
+      /tmp/kaniko/executor \
+        --context /tmp/src \
+        --dockerfile /tmp/src/localinfra/spindle.Dockerfile \
+        --ignore-path /tmp/src \
+        --ignore-path /tmp/docker-config \
+        --destination "atcr.io/cove.town/spindle:$VERSION" \
+        --destination "atcr.io/cove.town/spindle:latest"
 
   - name: trigger redeploy
     command: |
