@@ -1,0 +1,44 @@
+services:
+  slingshot:
+    image: atcr.io/cove.town/slingshot:latest
+    pull_policy: always
+    restart: always
+    command:
+      - "--jetstream"
+      - "us-east-1"
+      - "--cache-dir"
+      - "/data"
+      - "--bind"
+      - "0.0.0.0:8080"
+      - "--collect-metrics"
+      - "--bind-metrics"
+      - "0.0.0.0:8765"
+    dns:
+      - 1.1.1.1
+      - 9.9.9.9
+    environment:
+      - RUST_LOG=info
+    ulimits:
+      nofile:
+        soft: 4096
+        hard: 4096
+    volumes:
+      - slingshot_data:/data
+    healthcheck:
+      test: ["CMD", "bash", "-c", "exec 3<>/dev/tcp/127.0.0.1/8080"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    networks:
+      - dokploy-network
+    labels:
+      - observability.enable=true
+      - observability.service=slingshot
+
+volumes:
+  slingshot_data:
+
+networks:
+  dokploy-network:
+    external: true
