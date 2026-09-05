@@ -35,6 +35,8 @@ services:
     labels:
       - observability.enable=true
       - observability.service=slingshot
+      - observability.metrics.port=8765
+      - observability.metrics.path=/metrics
 
 volumes:
   slingshot_data:
