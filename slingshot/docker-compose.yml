@@ -38,6 +38,7 @@ services:
       - observability.metrics.port=8765
       - observability.metrics.path=/metrics
       - traefik.enable=true
+      # enable rate limiting
       - traefik.http.routers.slingshot.rule=Host(`slingshot.cove.town`)
       - traefik.http.routers.slingshot.priority=100
       - traefik.http.routers.slingshot.entrypoints=websecure
@@ -45,9 +46,16 @@ services:
       - traefik.http.routers.slingshot.service=slingshot
       - traefik.http.routers.slingshot.middlewares=slingshot-ratelimit
       - traefik.http.services.slingshot.loadbalancer.server.port=8080
+      # public IPs get a sensible default
       - traefik.http.middlewares.slingshot-ratelimit.ratelimit.average=100
       - traefik.http.middlewares.slingshot-ratelimit.ratelimit.period=1s
       - traefik.http.middlewares.slingshot-ratelimit.ratelimit.burst=200
+      # private IPs are not limited
+      - traefik.http.routers.slingshot-internal.rule=Host(`slingshot.cove.town`) && ClientIP(`10.0.0.0/8`)
+      - traefik.http.routers.slingshot-internal.priority=200
+      - traefik.http.routers.slingshot-internal.entrypoints=websecure
+      - traefik.http.routers.slingshot-internal.tls=true
+      - traefik.http.routers.slingshot-internal.service=slingshot
 
 volumes:
   slingshot_data:
