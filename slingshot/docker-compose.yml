@@ -18,6 +18,10 @@ services:
       - 9.9.9.9
     environment:
       - RUST_LOG=info
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
     volumes:
       - slingshot_data:/data
     healthcheck:
