@@ -18,10 +18,6 @@ services:
       - 9.9.9.9
     environment:
       - RUST_LOG=info
-    ulimits:
-      nofile:
-        soft: 4096
-        hard: 4096
     volumes:
       - slingshot_data:/data
     healthcheck:
@@ -37,6 +33,18 @@ services:
       - observability.service=slingshot
       - observability.metrics.port=8765
       - observability.metrics.path=/metrics
+      - traefik.enable=true
+      - traefik.http.routers.slingshot.rule=Host(`slingshot.cove.town`)
+      - traefik.http.routers.slingshot.priority=100
+      - traefik.http.routers.slingshot.entrypoints=websecure
+      - traefik.http.routers.slingshot.tls=true
+      - traefik.http.routers.slingshot.service=slingshot
+      - traefik.http.routers.slingshot.middlewares=slingshot-ratelimit
+      - traefik.http.services.slingshot.loadbalancer.server.port=8080
+      - traefik.http.middlewares.slingshot-ratelimit.ratelimit.average=1
+      - traefik.http.middlewares.slingshot-ratelimit.ratelimit.period=1s
+      - traefik.http.middlewares.slingshot-ratelimit.ratelimit.burst=1
+      - traefik.http.middlewares.slingshot-ratelimit.ratelimit.sourcecriterion.requesthost=true
 
 volumes:
   slingshot_data:
