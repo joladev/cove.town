@@ -45,10 +45,9 @@ services:
       - traefik.http.routers.slingshot.service=slingshot
       - traefik.http.routers.slingshot.middlewares=slingshot-ratelimit
       - traefik.http.services.slingshot.loadbalancer.server.port=8080
-      - traefik.http.middlewares.slingshot-ratelimit.ratelimit.average=1
+      - traefik.http.middlewares.slingshot-ratelimit.ratelimit.average=100
       - traefik.http.middlewares.slingshot-ratelimit.ratelimit.period=1s
-      - traefik.http.middlewares.slingshot-ratelimit.ratelimit.burst=1
-      - traefik.http.middlewares.slingshot-ratelimit.ratelimit.sourcecriterion.requesthost=true
+      - traefik.http.middlewares.slingshot-ratelimit.ratelimit.burst=200
 
 volumes:
   slingshot_data:
