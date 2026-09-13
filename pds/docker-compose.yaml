@@ -40,6 +40,7 @@ services:
       - dokploy-network
     volumes:
       - ./frontend/homepage.html:/var/lib/tranquil-pds/frontend/homepage.html:ro
+      - ./frontend/og.png:/var/lib/tranquil-pds/frontend/og.png:ro
     labels:
       - traefik.enable=true
       # Wildcard user handle routes
