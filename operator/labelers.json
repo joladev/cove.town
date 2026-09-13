@@ -3,5 +3,20 @@
     "name": "skywatch blue",
     "did": "did:plc:e4elbtctnfqocyfcml6h2lf7",
     "labels": []
+  },
+  {
+    "name": "northsky",
+    "did": "did:plc:p2cxrw3ank4dzs55mpm6ohq4",
+    "labels": []
+  },
+  {
+    "name": "bluesky",
+    "did": "did:plc:ar7c4by46qjdydhdevvrndac",
+    "labels": []
+  },
+  {
+    "name": "blacksky",
+    "did": "did:plc:d2mkddsbmnrgr3domzg5qexf",
+    "labels": []
   }
 ]
