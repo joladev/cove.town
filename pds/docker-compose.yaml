@@ -38,6 +38,8 @@ services:
       - AWS_REGION=${AWS_REGION}
     networks:
       - dokploy-network
+    volumes:
+      - ./frontend/homepage.html:/var/lib/tranquil-pds/frontend/homepage.html:ro
     labels:
       - traefik.enable=true
       # Wildcard user handle routes

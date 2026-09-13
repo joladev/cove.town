@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>cove.town</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚓</text></svg>">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: "Nunito", ui-rounded, "SF Pro Rounded", "Hiragino Maru Gothic ProN", system-ui, sans-serif; color:#2f5d63; background:#fdf6e9; min-height:100vh; min-height:100dvh; display:flex; flex-direction:column; }
+  main { flex:1; display:flex; align-items:center; justify-content:center; padding:3rem 1.5rem; }
+  .content { width:100%; max-width:760px; display:grid; grid-template-columns:minmax(0, 1fr) minmax(0, 1fr); gap:3rem; align-items:baseline; }
+  h1 { font-size:2.2rem; margin-bottom:.6rem; overflow-wrap:anywhere; }
+  h2 { font-size:1rem; margin-bottom:1.2rem; }
+  p { line-height:1.7; margin-bottom:1.2rem; }
+  a { color:#2b8a7d; font-weight:700; text-decoration:none; border-bottom:2px solid #ffd9a8; }
+  a:hover { color:#e2705c; border-bottom-color:#e2705c; }
+  .muted { color:#467479; }
+  .actions { display:flex; flex-wrap:wrap; gap:.6rem; margin:1.8rem 0 2.2rem; }
+  .button { padding:.5rem 1.2rem; border:2px solid #ffd9a8; border-radius:999px; color:#2f5d63; }
+  .button:hover { border-color:#e2705c; }
+  .button.primary { background:#2f5d63; border-color:#2f5d63; color:#fdf6e9; }
+  .button.primary:hover { background:#e2705c; border-color:#e2705c; color:#fdf6e9; }
+  .post + .post { margin-top:2rem; }
+  .post p { margin-bottom:0; }
+  .post-text { line-height:1.6; white-space:pre-wrap; overflow-wrap:anywhere; }
+  .harbor { display:block; flex-shrink:0; width:100%; height:clamp(170px, 25vh, 300px); }
+  .boat { animation:bob 5s ease-in-out infinite; transform-box:fill-box; transform-origin:50% 80%; }
+  .boat.late { animation-delay:-2.3s; }
+  .beam { animation:beam 7s ease-in-out infinite; }
+  @keyframes bob { 0%,100% { transform:translateY(0) rotate(-1deg); } 50% { transform:translateY(-4px) rotate(1deg); } }
+  @keyframes beam { 0%,100% { opacity:.2; } 50% { opacity:.55; } }
+  @media (prefers-reduced-motion: reduce) { .boat, .beam { animation:none; } }
+  @media (max-width: 640px) { .content { grid-template-columns:minmax(0, 1fr); } .recent-posts { display:none; } }
+</style>
+<link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
+<link href="https://fonts.bunny.net/css?family=nunito:400,700" rel="stylesheet">
+</head>
+<body>
+<main>
+  <div class="content">
+    <section>
+      <h1>pds.cove.town</h1>
+      <p>The PDS of <a href="https://cove.town">cove.town</a>, hosting and serving atproto accounts and data. Used as a backend for several projects, including <a href="https://shelf.cafe">shelf.cafe</a></p>
+      <p>Want an invite? Send us an email at <a href="mailto:hello@cove.town">hello@cove.town</a></p>
+      <div class="actions">
+        <a class="button primary" id="join" href="/app/register">Join</a>
+        <a class="button" id="login" href="/app/login">Login</a>
+        <a class="button" id="run-your-own" href="https://tangled.org/tranquil.farm/tranquil-pds" target="_blank" rel="noopener">Run your own</a>
+      </div>
+    </section>
+    <section class="recent-posts">
+      <h2>Recent posts</h2>
+      <div id="posts"></div>
+      <template id="post">
+        <article class="post">
+          <p><strong class="handle"></strong><span class="muted">, <time></time></span></p>
+          <p class="post-text"></p>
+        </article>
+      </template>
+    </section>
+  </div>
+</main>
+<svg class="harbor" viewBox="-2160 0 5760 320" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+  <g class="beam" fill="#ffd9a8">
+    <path d="M537 44 L860 4 L860 100 L537 56 Z"/>
+    <path d="M503 44 L180 4 L180 100 L503 56 Z"/>
+  </g>
+  <g stroke="#5b8a91" stroke-width="3.5" fill="none" stroke-linecap="round">
+    <path d="M250 120 q10 -12 20 0 q10 -12 20 0"/>
+    <path d="M1150 64 q9 -11 18 0 q9 -11 18 0"/>
+    <path d="M1214 92 q8 -10 16 0 q8 -10 16 0"/>
+  </g>
+  <path d="M-2160 204 Q-2070 196 -1980 204 T-1800 204 T-1620 204 T-1440 204 T-1260 204 T-1080 204 T-900 204 T-720 204 T-540 204 T-360 204 T-180 204 T0 204 T180 204 T360 204 T540 204 T720 204 T900 204 T1080 204 T1260 204 T1440 204 T1620 204 T1800 204 T1980 204 T2160 204 T2340 204 T2520 204 T2700 204 T2880 204 T3060 204 T3240 204 T3420 204 T3600 204 V320 H-2160 Z" fill="#aee0d6"/>
+  <path d="M110 212 Q124 192 150 196 Q176 192 186 212 Z" fill="#5b8a91"/>
+  <rect x="980" y="182" width="466" height="13" fill="#b5793f"/>
+  <rect x="980" y="195" width="466" height="5" fill="#8a5a33"/>
+  <g fill="#8a5a33">
+    <rect x="994" y="170" width="12" height="120" rx="3"/>
+    <rect x="1104" y="170" width="12" height="120" rx="3"/>
+    <rect x="1214" y="170" width="12" height="120" rx="3"/>
+    <rect x="1324" y="170" width="12" height="120" rx="3"/>
+    <rect x="1434" y="170" width="12" height="120" rx="3"/>
+  </g>
+  <rect x="1383" y="128" width="5" height="54" fill="#2f5d63"/>
+  <rect x="1376" y="112" width="19" height="18" rx="4" fill="#ffd9a8" stroke="#2f5d63" stroke-width="3"/>
+  <path d="M1373 113 L1385.5 101 L1398 113 Z" fill="#2f5d63"/>
+  <path d="M438 214 Q446 186 474 188 Q488 172 512 180 Q540 168 562 182 Q594 180 604 214 Z" fill="#5b8a91"/>
+  <path d="M586 214 Q592 198 610 199 Q628 200 632 214 Z" fill="#467479"/>
+  <path d="M485 192 L498 70 L542 70 L555 192 Z" fill="#fff8e7"/>
+  <path d="M494.8 100 L545.2 100 L547.5 122 L492.5 122 Z" fill="#e2705c"/>
+  <path d="M489.9 146 L550.1 146 L552.4 168 L487.6 168 Z" fill="#e2705c"/>
+  <path d="M511 192 V181 a9 9 0 0 1 18 0 V192 Z" fill="#b5793f"/>
+  <rect x="503" y="38" width="34" height="24" fill="#ffd9a8" stroke="#2f5d63" stroke-width="3"/>
+  <path d="M520 38 V62" stroke="#2f5d63" stroke-width="3"/>
+  <rect x="490" y="62" width="60" height="9" rx="3" fill="#2f5d63"/>
+  <path d="M497 40 L520 18 L543 40 Z" fill="#e2705c"/>
+  <circle cx="520" cy="15" r="4" fill="#2f5d63"/>
+  <path d="M-2160 240 Q-2040 222 -1920 240 T-1680 240 T-1440 240 T-1200 240 T-960 240 T-720 240 T-480 240 T-240 240 T0 240 T240 240 T480 240 T720 240 T960 240 T1200 240 T1440 240 T1680 240 T1920 240 T2160 240 T2400 240 T2640 240 T2880 240 T3120 240 T3360 240 T3600 240 V320 H-2160 Z" fill="#8fd3c7"/>
+  <path d="M700 196 Q674 224 652 212" stroke="#8a5a33" stroke-width="2.5" fill="none"/>
+  <circle cx="650" cy="216" r="10" fill="#e2705c"/>
+  <circle cx="650" cy="216" r="4" fill="#fff8e7"/>
+  <path d="M946 200 Q972 216 998 184" stroke="#8a5a33" stroke-width="2.5" fill="none"/>
+  <g transform="translate(40 86)">
+    <g class="boat">
+      <rect x="717" y="20" width="7" height="92" rx="3" fill="#8a5a33"/>
+      <path d="M724 26 L746 32 L724 38 Z" fill="#e2705c"/>
+      <rect x="722" y="88" width="52" height="6" rx="3" fill="#8a5a33"/>
+      <rect x="724" y="78" width="46" height="11" rx="5.5" fill="#fff8e7"/>
+      <path d="M660 108 Q720 138 780 108 L768 144 Q720 164 672 144 Z" fill="#b5793f"/>
+    </g>
+  </g>
+  <g transform="translate(324 112) scale(.8)">
+    <g class="boat late">
+      <rect x="717" y="30" width="7" height="82" rx="3" fill="#8a5a33"/>
+      <rect x="722" y="90" width="46" height="6" rx="3" fill="#8a5a33"/>
+      <rect x="724" y="80" width="40" height="11" rx="5.5" fill="#ffb4a2"/>
+      <path d="M660 108 Q720 138 780 108 L768 144 Q720 164 672 144 Z" fill="#e2705c"/>
+    </g>
+  </g>
+  <path d="M-2160 284 Q-2040 266 -1920 284 T-1680 284 T-1440 284 T-1200 284 T-960 284 T-720 284 T-480 284 T-240 284 T0 284 T240 284 T480 284 T720 284 T960 284 T1200 284 T1440 284 T1680 284 T1920 284 T2160 284 T2400 284 T2640 284 T2880 284 T3120 284 T3360 284 T3600 284 V320 H-2160 Z" fill="#63b8ab"/>
+</svg>
+<script type="module">
+  async function xrpc(method, params) {
+    const response = await fetch(`/xrpc/${method}?${new URLSearchParams(params)}`);
+    const body = await response.json();
+    if (!response.ok) throw new Error(`${method} returned ${response.status} ${body.error}${body.message ? `: ${body.message}` : ""}`);
+    return body;
+  }
+
+  function showError(element, prefix, error) {
+    console.error(error);
+    element.textContent = `${prefix}: ${error.message}`;
+  }
+
+  function renderSession() {
+    const stored = localStorage.getItem("tranquil_pds_session");
+    if (stored === null) return;
+    const { handle } = JSON.parse(stored);
+    const join = document.getElementById("join");
+    join.href = "/app/dashboard";
+    join.textContent = `@${handle}`;
+    document.getElementById("login").hidden = true;
+    document.getElementById("run-your-own").hidden = true;
+  }
+
+  async function listActiveRepos() {
+    const dids = [];
+    let cursor;
+    do {
+      const page = await xrpc("com.atproto.sync.listRepos", { limit: 1000, ...(cursor && { cursor }) });
+      dids.push(...page.repos.filter((repo) => repo.active).map((repo) => repo.did));
+      cursor = page.cursor;
+    } while (cursor);
+    return dids;
+  }
+
+  async function recentPosts(did) {
+    const { records } = await xrpc("com.atproto.repo.listRecords", { repo: did, collection: "app.bsky.feed.post", limit: 100 });
+    return records.filter(({ value }) => !value.reply && value.text.trim() !== "").map((record) => ({ did, record }));
+  }
+
+  async function renderPosts() {
+    const dids = await listActiveRepos();
+    const posts = (await Promise.all(dids.map(recentPosts)))
+      .flat()
+      .sort((a, b) => Date.parse(b.record.value.createdAt) - Date.parse(a.record.value.createdAt))
+      .slice(0, 3);
+    document.getElementById("posts").replaceChildren(...(await Promise.all(posts.map(renderPost))));
+  }
+
+  async function renderPost({ did, record }) {
+    const { handle } = await xrpc("com.atproto.repo.describeRepo", { repo: did });
+    const post = document.getElementById("post").content.cloneNode(true);
+    const time = post.querySelector("time");
+    post.querySelector(".handle").textContent = handle;
+    time.dateTime = record.value.createdAt;
+    time.textContent = new Date(record.value.createdAt).toLocaleDateString("en", { month: "short", day: "numeric", year: "numeric" });
+    post.querySelector(".post-text").textContent = record.value.text;
+    return post;
+  }
+
+  renderPosts().catch((error) => showError(document.getElementById("posts"), "Couldn't load posts", error));
+  renderSession();
+</script>
+</body>
+</html>
