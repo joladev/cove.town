@@ -2,44 +2,45 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>cove.town</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="icon" href="/favicon.ico">
-<meta property="og:type" content="website">
-<meta property="og:title" content="pds.cove.town">
-<meta property="og:description" content="The PDS of cove.town, hosting and serving atproto accounts and data.">
-<meta property="og:image" content="https://pds.cove.town/og.png">
-<meta name="twitter:card" content="summary_large_image">
-<style>
-  * { margin:0; padding:0; box-sizing:border-box; }
-  body { font-family: "Nunito", ui-rounded, "SF Pro Rounded", "Hiragino Maru Gothic ProN", system-ui, sans-serif; color:#2f5d63; background:#fdf6e9; min-height:100vh; min-height:100dvh; display:flex; flex-direction:column; }
-  main { flex:1; display:flex; align-items:center; justify-content:center; padding:3rem 1.5rem; }
-  .content { width:100%; max-width:760px; display:grid; grid-template-columns:minmax(0, 1fr) minmax(0, 1fr); gap:3rem; align-items:baseline; }
-  h1 { font-size:2.2rem; margin-bottom:.6rem; overflow-wrap:anywhere; }
-  h2 { font-size:1rem; margin-bottom:1.2rem; }
-  p { line-height:1.7; margin-bottom:1.2rem; }
-  a { color:#2b8a7d; font-weight:700; text-decoration:none; border-bottom:2px solid #ffd9a8; }
-  a:hover { color:#e2705c; border-bottom-color:#e2705c; }
-  .muted { color:#467479; }
-  .actions { display:flex; flex-wrap:wrap; gap:.6rem; margin:1.8rem 0 2.2rem; }
-  .button { padding:.5rem 1.2rem; border:2px solid #ffd9a8; border-radius:999px; color:#2f5d63; }
-  .button:hover { border-color:#e2705c; }
-  .button.primary { background:#2f5d63; border-color:#2f5d63; color:#fdf6e9; }
-  .button.primary:hover { background:#e2705c; border-color:#e2705c; color:#fdf6e9; }
-  .post + .post { margin-top:2rem; }
-  .post p { margin-bottom:0; }
-  .post-text { line-height:1.6; white-space:pre-wrap; overflow-wrap:anywhere; }
-  .harbor { display:block; flex-shrink:0; width:100%; height:clamp(170px, 25vh, 300px); }
-  .boat { animation:bob 5s ease-in-out infinite; transform-box:fill-box; transform-origin:50% 80%; }
-  .boat.late { animation-delay:-2.3s; }
-  .beam { animation:beam 7s ease-in-out infinite; }
-  @keyframes bob { 0%,100% { transform:translateY(0) rotate(-1deg); } 50% { transform:translateY(-4px) rotate(1deg); } }
-  @keyframes beam { 0%,100% { opacity:.2; } 50% { opacity:.55; } }
-  @media (prefers-reduced-motion: reduce) { .boat, .beam { animation:none; } }
-  @media (max-width: 640px) { .content { grid-template-columns:minmax(0, 1fr); } .recent-posts { display:none; } }
-</style>
-<link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
-<link href="https://fonts.bunny.net/css?family=nunito:400,700" rel="stylesheet">
+  <title>cove.town</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="/favicon.ico">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="pds.cove.town">
+  <meta property="og:description" content="The PDS of cove.town, hosting and serving atproto accounts and data.">
+  <meta property="og:image" content="https://pds.cove.town/og.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family: "Nunito", ui-rounded, "SF Pro Rounded", "Hiragino Maru Gothic ProN", system-ui, sans-serif; color:#2f5d63; background:#fdf6e9; min-height:100vh; min-height:100dvh; display:flex; flex-direction:column; }
+    main { flex:1; display:flex; align-items:center; justify-content:center; padding:3rem 1.5rem; }
+    .content { width:100%; max-width:760px; display:grid; grid-template-columns:minmax(0, 1fr) minmax(0, 1fr); gap:3rem; align-items:baseline; }
+    h1 { font-size:2.2rem; margin-bottom:.6rem; overflow-wrap:anywhere; }
+    h2 { font-size:1rem; margin-bottom:1.2rem; }
+    p { line-height:1.7; margin-bottom:1.2rem; }
+    a { color:#2b8a7d; font-weight:700; text-decoration:none; border-bottom:2px solid #ffd9a8; }
+    a:hover { color:#e2705c; border-bottom-color:#e2705c; }
+    .muted { color:#467479; }
+    .actions { display:flex; flex-wrap:wrap; gap:.6rem; margin:1.8rem 0 2.2rem; }
+    .button { padding:.5rem 1.2rem; border:2px solid #ffd9a8; border-radius:999px; color:#2f5d63; }
+    .button:hover { border-color:#e2705c; }
+    .button.primary { background:#2f5d63; border-color:#2f5d63; color:#fdf6e9; }
+    .button.primary:hover { background:#e2705c; border-color:#e2705c; color:#fdf6e9; }
+    .post + .post { margin-top:2rem; }
+    .post p { margin-bottom:0; }
+    .post-text { line-height:1.6; white-space:pre-wrap; overflow-wrap:anywhere; }
+    .harbor { display:block; flex-shrink:0; width:100%; height:clamp(170px, 25vh, 300px); }
+    .boat { animation:bob 5s ease-in-out infinite; transform-box:fill-box; transform-origin:50% 80%; }
+    .boat.late { animation-delay:-2.3s; }
+    .beam { animation:beam 7s ease-in-out infinite; }
+    @keyframes bob { 0%,100% { transform:translateY(0) rotate(-1deg); } 50% { transform:translateY(-4px) rotate(1deg); } }
+    @keyframes beam { 0%,100% { opacity:.2; } 50% { opacity:.55; } }
+    @media (prefers-reduced-motion: reduce) { .boat, .beam { animation:none; } }
+    @media (max-width: 640px) { .content { grid-template-columns:minmax(0, 1fr); } .recent-posts { display:none; } }
+  </style>
+  <link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
+  <link href="https://fonts.bunny.net/css?family=nunito:400,700" rel="stylesheet">
+  <script defer src="https://u.cove.town/script.js" data-website-id="d4afe244-bab7-49f7-a21c-07fd9e3132c2"></script>
 </head>
 <body>
 <main>
