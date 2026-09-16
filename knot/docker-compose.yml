@@ -3,6 +3,7 @@ services:
     image: atcr.io/cove.town/knot:latest
     pull_policy: always
     restart: always
+    mem_limit: 1g
     ports:
       - "22:2222"
     environment:
