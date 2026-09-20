@@ -17,34 +17,20 @@ services:
       - SPINDLE_SERVER_OWNER=did:plc:3pnunm7komgxzfwrrxdtvsvl
       - SPINDLE_SERVER_DB_PATH=/var/lib/spindle/spindle.db
       - SPINDLE_SERVER_LOG_DIR=/var/log/spindle
-      - SPINDLE_MICROVM_PIPELINES_IMAGE_DIR=/var/lib/spindle/images
-      - SPINDLE_MICROVM_PIPELINES_OVERLAY_DIR=/var/lib/spindle/overlays
-      - SPINDLE_MICROVM_PIPELINES_ENABLE_KVM=false
-      - SPINDLE_MICROVM_PIPELINES_ENABLE_CGROUPS=false
       - SPINDLE_S3_LOG_BUCKET=spindle-logs
       - SPINDLE_NIXERY_PIPELINES_WORKFLOW_TIMEOUT=1h
       - SPINDLE_NIXERY_PIPELINES_MAX_JOB_MEMORY_MB=8192
+      - SPINDLE_SERVER_MAX_JOB_COUNT=3
       - AWS_ACCESS_KEY_ID=${ACCESS_KEY_ID}
       - AWS_SECRET_ACCESS_KEY=${SECRET_ACCESS_KEY}
       - AWS_REGION=garage
       - AWS_ENDPOINT_URL_S3=http://garage:3900
       - AWS_ENDPOINT_URL=http://garage:3900
       - SPINDLE_NIXERY_PIPELINES_NIXERY=${SPINDLE_NIXERY_PIPELINES_NIXERY}
-    devices:
-      - /dev/vsock:/dev/vsock
-      - /dev/vhost-vsock:/dev/vhost-vsock
-      - /dev/net/tun:/dev/net/tun
-    cap_add:
-      - NET_ADMIN
-      - SYS_ADMIN
-    security_opt:
-      - label=disable
-      - seccomp=unconfined
     volumes:
       - spindle_data:/var/lib/spindle
       - spindle_logs:/var/log/spindle
       - /var/run/docker.sock:/var/run/docker.sock
-      - /var/lib/spindle-images:/var/lib/spindle/images:ro
     networks:
       - default
       - dokploy-network
