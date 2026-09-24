@@ -1,6 +1,6 @@
 services:
   pds:
-    image: atcr.io/cove.town/tranquil-pds:latest
+    image: atcr.io/cove.town/tranquil-pds:v0.6.7
     restart: always
     healthcheck:
       test: ["CMD", "/usr/local/bin/tranquil-pds", "healthcheck"]
