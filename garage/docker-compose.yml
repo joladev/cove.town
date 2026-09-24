@@ -23,6 +23,20 @@ services:
       - observability.metrics.port=3903
       - observability.metrics.path=/metrics
 
+  webadmin:
+    build: ./webadmin
+    restart: always
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1:8080/"]
+    ports:
+      - "3910:8080"
+    labels:
+      - tsdproxy.enable=true
+      - tsdproxy.name=garage
+      - tsdproxy.port.1=443/https:8080/http
+    networks:
+      - dokploy-network
+
 volumes:
   garage_meta:
   garage_data:
