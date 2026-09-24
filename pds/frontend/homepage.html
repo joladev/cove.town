@@ -26,7 +26,6 @@
     .button:hover { border-color:#e2705c; }
     .button.primary { background:#2f5d63; border-color:#2f5d63; color:#fdf6e9; }
     .button.primary:hover { background:#e2705c; border-color:#e2705c; color:#fdf6e9; }
-    .post + .post { margin-top:2rem; }
     .post p { margin-bottom:0; }
     .post-text { line-height:1.6; white-space:pre-wrap; overflow-wrap:anywhere; }
     .harbor { display:block; flex-shrink:0; width:100%; height:clamp(170px, 25vh, 300px); }
@@ -36,7 +35,7 @@
     @keyframes bob { 0%,100% { transform:translateY(0) rotate(-1deg); } 50% { transform:translateY(-4px) rotate(1deg); } }
     @keyframes beam { 0%,100% { opacity:.2; } 50% { opacity:.55; } }
     @media (prefers-reduced-motion: reduce) { .boat, .beam { animation:none; } }
-    @media (max-width: 640px) { .content { grid-template-columns:minmax(0, 1fr); } .recent-posts { display:none; } }
+    @media (max-width: 640px) { .content { grid-template-columns:minmax(0, 1fr); } .updates { display:none; } }
   </style>
   <link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
   <link href="https://fonts.bunny.net/css?family=nunito:400,700" rel="stylesheet">
@@ -55,8 +54,8 @@
         <a class="button" id="run-your-own" href="https://tangled.org/tranquil.farm/tranquil-pds" target="_blank" rel="noopener">Run your own</a>
       </div>
     </section>
-    <section class="recent-posts">
-      <h2>Recent posts</h2>
+    <section class="updates">
+      <h2>Updates</h2>
       <div id="posts"></div>
       <template id="post">
         <article class="post">
@@ -150,28 +149,15 @@
     document.getElementById("run-your-own").hidden = true;
   }
 
-  async function listActiveRepos() {
-    const dids = [];
-    let cursor;
-    do {
-      const page = await xrpc("com.atproto.sync.listRepos", { limit: 1000, ...(cursor && { cursor }) });
-      dids.push(...page.repos.filter((repo) => repo.active).map((repo) => repo.did));
-      cursor = page.cursor;
-    } while (cursor);
-    return dids;
-  }
-
-  async function recentPosts(did) {
-    const { records } = await xrpc("com.atproto.repo.listRecords", { repo: did, collection: "app.bsky.feed.post", limit: 100 });
-    return records.filter(({ value }) => !value.reply && value.text.trim() !== "").map((record) => ({ did, record }));
-  }
+  const FEATURED_DID = "did:plc:t7lco4vymbvvhb5hoyfn4w3b";
 
   async function renderPosts() {
-    const dids = await listActiveRepos();
-    const posts = (await Promise.all(dids.map(recentPosts)))
-      .flat()
-      .sort((a, b) => Date.parse(b.record.value.createdAt) - Date.parse(a.record.value.createdAt))
-      .slice(0, 3);
+    const { records } = await xrpc("com.atproto.repo.listRecords", { repo: FEATURED_DID, collection: "app.bsky.feed.post", limit: 100 });
+    const posts = records
+      .filter(({ value }) => !value.reply && value.text.trim() !== "")
+      .sort((a, b) => Date.parse(b.value.createdAt) - Date.parse(a.value.createdAt))
+      .slice(0, 1)
+      .map((record) => ({ did: FEATURED_DID, record }));
     document.getElementById("posts").replaceChildren(...(await Promise.all(posts.map(renderPost))));
   }
 
