@@ -1,13 +1,13 @@
 when:
   - event: ["push"]
-    branch: ["main"]
+    branch: ["main", "johanna/slingshot-patch"]
     paths:
       - ".tangled/workflows/slingshot.yml"
 
 engine: nixery
 
 environment:
-  VERSION: 3137b07
+  VERSION: 70666d7449d87d8c42a3ed53e29d814e00f2296d
   KANIKO_IMAGE: ghcr.io/osscontainertools/kaniko:v1.28.3@sha256:779f463aaa3219151ceff518249aa043a60bcb09a17fab58b915f63c678ecde6
 
 dependencies:
@@ -29,7 +29,7 @@ steps:
       export DOCKER_CONFIG=/tmp/docker-config
       mkdir -p "$DOCKER_CONFIG"
       echo "$CI_BOT_PASSWORD" | /tmp/kaniko/executor login atcr.io -u cove.town --password-stdin
-      git clone https://tangled.org/microcosm.blue/microcosm-rs.git /tmp/src
+      git clone https://tangled.org/jola.dev/microcosm-rs /tmp/src
       git -C /tmp/src checkout "$VERSION"
       /tmp/kaniko/executor \
         --context /tmp/src \
