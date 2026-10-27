@@ -1,6 +1,6 @@
 services:
   slingshot:
-    image: atcr.io/cove.town/slingshot:8b9f28b7a433587c730b3b570372b4cb4fb59da8
+    image: atcr.io/cove.town/slingshot:b4dd9318bc4c8ad1ab891e1bfdc943085d0ccc40
     pull_policy: always
     restart: always
     command:
