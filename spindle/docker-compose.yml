@@ -14,7 +14,8 @@ services:
       - 9.9.9.9
     environment:
       - SPINDLE_SERVER_HOSTNAME=spindle.cove.town
-      - SPINDLE_SERVER_OWNER=did:plc:t7lco4vymbvvhb5hoyfn4w3b
+      - SPINDLE_SERVER_OWNER=${SPINDLE_SERVER_OWNER}
+      - SPINDLE_SERVER_ADMINS=${SPINDLE_SERVER_ADMINS}
       - SPINDLE_SERVER_DB_PATH=/var/lib/spindle/spindle.db
       - SPINDLE_SERVER_LOG_DIR=/var/log/spindle
       - SPINDLE_S3_LOG_BUCKET=spindle-logs
