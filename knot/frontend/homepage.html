@@ -14,21 +14,26 @@
     * { margin:0; padding:0; box-sizing:border-box; }
     body { font-family: "Nunito", ui-rounded, "SF Pro Rounded", "Hiragino Maru Gothic ProN", system-ui, sans-serif; color:#2f5d63; background:#fdf6e9; min-height:100vh; min-height:100dvh; display:flex; flex-direction:column; }
     main { flex:1; display:flex; align-items:center; justify-content:center; padding:3rem 1.5rem; }
-    .content { width:100%; max-width:520px; }
+    .content { width:100%; max-width:760px; display:grid; grid-template-columns:minmax(0, 1fr) minmax(0, 1fr); gap:3rem; align-items:baseline; }
     h1 { font-size:2.2rem; margin-bottom:.6rem; overflow-wrap:anywhere; }
+    h2 { font-size:1rem; margin-bottom:1.2rem; }
     p { line-height:1.7; margin-bottom:1.2rem; }
     a { color:#2b8a7d; font-weight:700; text-decoration:none; border-bottom:2px solid #ffd9a8; }
     a:hover { color:#e2705c; border-bottom-color:#e2705c; }
+    .muted { color:#467479; }
     .actions { display:flex; flex-wrap:wrap; gap:.6rem; margin-top:1.8rem; }
     .button { padding:.5rem 1.2rem; border:2px solid #ffd9a8; border-radius:999px; color:#2f5d63; }
     .button:hover { border-color:#e2705c; }
     .button.primary { background:#2f5d63; border-color:#2f5d63; color:#fdf6e9; }
     .button.primary:hover { background:#e2705c; border-color:#e2705c; color:#fdf6e9; }
+    .commit p { margin-bottom:0; }
+    .commit-message { line-height:1.6; overflow-wrap:anywhere; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; overflow:hidden; }
     .moorings { display:block; flex-shrink:0; width:100%; height:clamp(170px, 25vh, 300px); }
     .boat { animation:bob 5s ease-in-out infinite; transform-box:fill-box; transform-origin:50% 80%; }
     .boat.late { animation-delay:-2.3s; }
     @keyframes bob { 0%,100% { transform:translateY(0) rotate(-1deg); } 50% { transform:translateY(-4px) rotate(1deg); } }
     @media (prefers-reduced-motion: reduce) { .boat { animation:none; } }
+    @media (max-width: 640px) { .content { grid-template-columns:minmax(0, 1fr); } .updates { display:none; } }
   </style>
   <link rel="preconnect" href="https://fonts.bunny.net" crossorigin>
   <link href="https://fonts.bunny.net/css?family=nunito:400,700" rel="stylesheet">
@@ -37,11 +42,24 @@
 <body>
 <main>
   <div class="content">
-    <h1>knot.cove.town</h1>
-    <p>A knot is a git repo hosting component for <a href="https://tangled.org/">Tangled</a>. This server is hosting a bunch of different repos, including the self-hosted atproto stack that powers this site.</p>
-    <div class="actions">
-      <a class="button primary" href="https://tangled.org/cove.town/cove.town">View the source</a>
-    </div>
+    <section>
+      <h1>knot.cove.town</h1>
+      <p>A knot is a git repo hosting component for <a href="https://tangled.org/">Tangled</a>. This server is hosting a bunch of different repos, including the self-hosted atproto stack that powers this site.</p>
+      <div class="actions">
+        <a class="button primary" href="https://tangled.org/cove.town/cove.town">View the source</a>
+      </div>
+    </section>
+    <section class="updates">
+      <h2>Latest commit</h2>
+      <div id="commits"></div>
+      <template id="commit">
+        <article class="commit">
+          <p><a class="repo">cove.town</a><span class="muted">, <time></time></span></p>
+          <p class="commit-message"></p>
+          <p><a class="hash"></a></p>
+        </article>
+      </template>
+    </section>
   </div>
 </main>
 <svg class="moorings" viewBox="-2160 0 5760 320" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
@@ -119,5 +137,37 @@
   </g>
   <path d="M-2160 284 Q-2040 266 -1920 284 T-1680 284 T-1440 284 T-1200 284 T-960 284 T-720 284 T-480 284 T-240 284 T0 284 T240 284 T480 284 T720 284 T960 284 T1200 284 T1440 284 T1680 284 T1920 284 T2160 284 T2400 284 T2640 284 T2880 284 T3120 284 T3360 284 T3600 284 V320 H-2160 Z" fill="#63b8ab"/>
 </svg>
+<script type="module">
+  async function xrpc(method, params) {
+    const response = await fetch(`/xrpc/${method}?${new URLSearchParams(params)}`);
+    const body = await response.json();
+    if (!response.ok) throw new Error(`${method} returned ${response.status} ${body.error}${body.message ? `: ${body.message}` : ""}`);
+    return body;
+  }
+
+  function showError(element, prefix, error) {
+    console.error(error);
+    element.textContent = `${prefix}: ${error.message}`;
+  }
+
+  const FEATURED_REPO = "did:plc:o7poqxnnxrwzbvreb7m4fa3o";
+
+  async function renderCommit() {
+    const { commits: [{ hash, committer, message }] } = await xrpc("org.tangled.git.listCommits", { repo: FEATURED_REPO, ref: "HEAD", limit: 1 });
+    const repoUrl = `https://tangled.org/${FEATURED_REPO}`;
+    const commit = document.getElementById("commit").content.cloneNode(true);
+    const time = commit.querySelector("time");
+    const hashLink = commit.querySelector(".hash");
+    commit.querySelector(".repo").href = repoUrl;
+    time.dateTime = committer.when;
+    time.textContent = new Date(committer.when).toLocaleDateString("en", { month: "short", day: "numeric", year: "numeric" });
+    commit.querySelector(".commit-message").textContent = message.split("\n")[0];
+    hashLink.href = `${repoUrl}/commit/${hash}`;
+    hashLink.textContent = hash.slice(0, 7);
+    document.getElementById("commits").replaceChildren(commit);
+  }
+
+  renderCommit().catch((error) => showError(document.getElementById("commits"), "Couldn't load the latest commit", error));
+</script>
 </body>
 </html>
