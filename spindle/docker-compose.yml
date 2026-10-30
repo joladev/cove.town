@@ -27,6 +27,10 @@ services:
       - AWS_ENDPOINT_URL_S3=http://garage:3900
       - AWS_ENDPOINT_URL=http://garage:3900
       - SPINDLE_NIXERY_PIPELINES_NIXERY=${SPINDLE_NIXERY_PIPELINES_NIXERY}
+      - SPINDLE_SERVER_KEY_PATH=/var/lib/spindle/spindle-key.pem
+      - SPINDLE_CONTACT_EMAIL=${SPINDLE_CONTACT_EMAIL}
+      - SPINDLE_SERVER_HYDRANT_DIR=/var/lib/spindle/hydrant
+      - SPINDLE_ARTIFACT_STORES_S3_BUCKET=spindle-logs
     volumes:
       - spindle_data:/var/lib/spindle
       - spindle_logs:/var/log/spindle
