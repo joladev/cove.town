@@ -13,6 +13,7 @@ master_key_env = "KNOT_MASTER_KEY"
 
 [atproto]
 plc_directory = "https://plc.directory"
+repo_signing_keys = "/data/repo-signing-keys.json"
 
 [xrpc]
 trusted_proxy_header = "x-forwarded-for"
