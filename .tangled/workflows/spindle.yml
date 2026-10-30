@@ -3,11 +3,12 @@ when:
     branch: ["main"]
     paths:
       - ".tangled/workflows/spindle.yml"
+      - "spindle/Dockerfile"
 
 engine: nixery
 
 environment:
-  VERSION: v1.16.1-alpha
+  VERSION: 51f4e39e4f1621a65c8d3b5c4e4f859fa84831e4
   KANIKO_IMAGE: ghcr.io/osscontainertools/kaniko:v1.28.3@sha256:779f463aaa3219151ceff518249aa043a60bcb09a17fab58b915f63c678ecde6
 
 dependencies:
@@ -31,7 +32,8 @@ steps:
       git -C /tmp/src checkout "$VERSION"
       /tmp/kaniko/executor \
         --context /tmp/src \
-        --dockerfile /tmp/src/localinfra/spindle.Dockerfile \
+        --dockerfile "$(pwd)/spindle/Dockerfile" \
+        --ignore-path "$(pwd)/spindle" \
         --ignore-path /tmp/src \
         --ignore-path /tmp/docker-config \
         --ignore-path /tangled \
