@@ -24,3 +24,6 @@ object_format = "sha1"
 
 [lfs]
 store_path="/data/lfs"
+
+[homepage]
+path = "/etc/knot/homepage.html"

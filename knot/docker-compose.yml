@@ -14,6 +14,7 @@ services:
     volumes:
       - ./config.toml:/etc/knot/config.toml:ro
       - knot_data:/data
+      - ./frontend/homepage.html:/etc/knot/homepage.html:ro
     labels:
       - observability.enable=true
       - observability.service=knot
