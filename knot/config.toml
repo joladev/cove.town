@@ -20,3 +20,6 @@ trusted_proxy_header = "x-forwarded-for"
 [git]
 # keep sha1 so repos stay mirrorable to GitHub (sha256 repos can't push to sha1 hosts)
 object_format = "sha1"
+
+[lfs]
+store_path="/data/lfs"

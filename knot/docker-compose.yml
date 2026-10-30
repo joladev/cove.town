@@ -1,6 +1,6 @@
 services:
   knot:
-    image: atcr.io/cove.town/knot:latest
+    image: atcr.io/cove.town/knot:v1.20.0
     pull_policy: always
     restart: always
     mem_limit: 1g
@@ -10,6 +10,7 @@ services:
       - KNOT_MASTER_KEY=${KNOT_MASTER_KEY}
       - KNOT_HOSTNAME=${KNOT_HOSTNAME}
       - KNOT_ADMINS=${KNOT_ADMINS}
+      - KNOT_CONTACT_EMAIL=${KNOT_CONTACT_EMAIL}
     volumes:
       - ./config.toml:/etc/knot/config.toml:ro
       - knot_data:/data
