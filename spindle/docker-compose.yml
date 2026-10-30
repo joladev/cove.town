@@ -33,6 +33,7 @@ services:
       - SPINDLE_ARTIFACT_STORES_S3_BUCKET=spindle-logs
       - SPINDLE_SERVER_CORS_ORIGINS=*
       - SPINDLE_ARTIFACT_STORES_DISK_DIR=/var/log/spindle
+      - SPINDLE_ARTIFACT_STORES_S3_REGION=garage
     volumes:
       - spindle_data:/var/lib/spindle
       - spindle_logs:/var/log/spindle
