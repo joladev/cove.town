@@ -18,7 +18,6 @@ services:
       - SPINDLE_SERVER_ADMINS=${SPINDLE_SERVER_ADMINS}
       - SPINDLE_SERVER_DB_PATH=/var/lib/spindle/spindle.db
       - SPINDLE_SERVER_LOG_DIR=/var/log/spindle
-      - SPINDLE_S3_LOG_BUCKET=spindle-logs
       - SPINDLE_NIXERY_PIPELINES_WORKFLOW_TIMEOUT=1h
       - SPINDLE_NIXERY_PIPELINES_MAX_JOB_MEMORY_MB=8192
       - SPINDLE_SERVER_MAX_JOB_COUNT=3
@@ -33,6 +32,7 @@ services:
       - SPINDLE_SERVER_HYDRANT_DIR=/var/lib/spindle/hydrant
       - SPINDLE_ARTIFACT_STORES_S3_BUCKET=spindle-logs
       - SPINDLE_SERVER_CORS_ORIGINS=*
+      - SPINDLE_ARTIFACT_STORES_DISK_DIR=/var/log/spindle
     volumes:
       - spindle_data:/var/lib/spindle
       - spindle_logs:/var/log/spindle
