@@ -7,7 +7,7 @@ when:
 engine: nixery
 
 environment:
-  VERSION: a9ca4cfe32d0c03f6b8cdaa9dc14988087892158
+  VERSION: 741dfde0326b52ee57325a11e2080fbe842324e1
   KANIKO_IMAGE: ghcr.io/osscontainertools/kaniko:v1.28.3@sha256:779f463aaa3219151ceff518249aa043a60bcb09a17fab58b915f63c678ecde6
 
 dependencies:
