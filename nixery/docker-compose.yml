@@ -4,7 +4,7 @@ services:
     restart: always
     environment:
       - PORT=8080
-      - NIXERY_CHANNEL=nixos-unstable
+      - NIXERY_CHANNEL=0bb2eedc20e4739f29e8045034f2828ad7054f8f
       - NIX_TIMEOUT=60
       - WEB_DIR=/dev/null
       - NIXERY_STORAGE_BACKEND=s3

@@ -1,5 +1,5 @@
 FROM nixos/nix
-ARG NIXERY_REV=76760ad8cadd56841c6c99e620acbfd525c9c9a4
+ARG NIXERY_REV=8f2196e65f2716c1dab032d7d4b46af78e5d078a
 ADD https://github.com/tazjin/nixery/archive/${NIXERY_REV}.tar.gz /src/nixery.tar.gz
 WORKDIR /src
 RUN tar xf nixery.tar.gz && mv nixery-${NIXERY_REV} nixery
