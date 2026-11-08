@@ -7,7 +7,7 @@ RUN REV=$(sed -n 's|.*tangled.org/ptr.pet/hydrant v.*-\([0-9a-f]\{12\}\)$|\1|p' 
     && git clone https://tangled.org/ptr.pet/hydrant /src \
     && git -C /src checkout "$REV"
 WORKDIR /src
-RUN cargo build --release -p hydrant-ffi
+RUN CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_LINKER=cc RUSTFLAGS= cargo build --release -p hydrant-ffi
 
 FROM golang:1.27.2-trixie AS builder
 RUN apt-get update && apt-get install -y --no-install-recommends libsqlite3-dev \
