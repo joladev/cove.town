@@ -1,6 +1,6 @@
 services:
   pds:
-    image: registry.cove.town/cove.town/tranquil-pds:b5a7bf4
+    image: registry.cove.town/cove.town/tranquil-pds:v0.8.0
     restart: always
     healthcheck:
       test: ["CMD", "/usr/local/bin/tranquil-pds", "healthcheck"]
