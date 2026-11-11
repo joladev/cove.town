@@ -1,6 +1,6 @@
 services:
   spindle:
-    image: atcr.io/cove.town/spindle:latest
+    image: registry.cove.town/cove.town/spindle:090c0b8ef578560cabf72220a3489d071551c5b8
     pull_policy: always
     restart: always
     stop_grace_period: 10m
