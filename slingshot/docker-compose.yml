@@ -1,6 +1,6 @@
 services:
   slingshot:
-    image: registry.cove.town/cove.town/slingfork:ff17aaf
+    image: registry.cove.town/cove.town/slingfork:2c22305
     pull_policy: always
     restart: always
     command:
