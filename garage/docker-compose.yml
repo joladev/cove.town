@@ -24,7 +24,7 @@ services:
       - observability.metrics.path=/metrics
 
   webadmin:
-    build: ./webadmin
+    image: registry.cove.town/cove.town/garage-webadmin:latest
     restart: always
     healthcheck:
       test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1:8080/"]
