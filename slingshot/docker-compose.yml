@@ -14,7 +14,8 @@ services:
       - "--bind-metrics"
       - "0.0.0.0:8765"
     dns:
-      - 9.9.9.9
+      - 185.12.64.1
+      - 185.12.64.2
       - 1.1.1.1
     environment:
       - RUST_LOG=${RUST_LOG}
