@@ -3,22 +3,24 @@ services:
     image: registry.cove.town/cove.town/slingfork:4a6c224
     pull_policy: always
     restart: always
-    command:
-      - "--jetstream"
-      - "us-east-1"
-      - "--cache-dir"
-      - "/data"
-      - "--bind"
-      - "0.0.0.0:8080"
-      - "--collect-metrics"
-      - "--bind-metrics"
-      - "0.0.0.0:8765"
+    command: []
     dns:
       - 185.12.64.1
       - 185.12.64.2
       - 1.1.1.1
     environment:
       - RUST_LOG=${RUST_LOG}
+      - SLINGSHOT_JETSTREAM=${SLINGSHOT_JETSTREAM}
+      - SLINGSHOT_CACHE_DIR=/data
+      - SLINGSHOT_BIND=0.0.0.0:8080
+      - SLINGSHOT_COLLECT_METRICS=true
+      - SLINGSHOT_BIND_METRICS=0.0.0.0:8765
+      - SLINGSHOT_PLC_DIRECTORY=${SLINGSHOT_PLC_DIRECTORY}
+      - SLINGSHOT_RECORD_CACHE_MEMORY_MB=${SLINGSHOT_RECORD_CACHE_MEMORY_MB}
+      - SLINGSHOT_RECORD_CACHE_DISK_GB=${SLINGSHOT_RECORD_CACHE_DISK_GB}
+      - SLINGSHOT_IDENTITY_CACHE_MEMORY_MB=${SLINGSHOT_IDENTITY_CACHE_MEMORY_MB}
+      - SLINGSHOT_IDENTITY_CACHE_DISK_GB=${SLINGSHOT_IDENTITY_CACHE_DISK_GB}
+      - SLINGSHOT_HEALTHCHECK=${SLINGSHOT_HEALTHCHECK}
     ulimits:
       nofile:
         soft: 65536
