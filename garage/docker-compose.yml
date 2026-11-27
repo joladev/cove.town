@@ -1,6 +1,6 @@
 services:
   garage:
-    image: dxflrs/garage:v2.5.0
+    image: dxflrs/garage:v2.6.0
     restart: always
     healthcheck:
       test: ["CMD", "/garage", "-c", "/etc/garage.toml", "status"]
@@ -22,20 +22,9 @@ services:
       - observability.service=garage
       - observability.metrics.port=3903
       - observability.metrics.path=/metrics
-
-  webadmin:
-    image: registry.cove.town/cove.town/garage-webadmin:latest
-    restart: always
-    healthcheck:
-      test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1:8080/"]
-    ports:
-      - "3910:8080"
-    labels:
       - tsdproxy.enable=true
       - tsdproxy.name=garage
-      - tsdproxy.port.1=443/https:8080/http
-    networks:
-      - dokploy-network
+      - tsdproxy.port.1=443/https:3903/http
 
 volumes:
   garage_meta:
