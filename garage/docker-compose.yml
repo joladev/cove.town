@@ -13,6 +13,8 @@ services:
       - ./garage.toml:/etc/garage.toml:ro
       - garage_meta:/var/lib/garage/meta
       - garage_data:/var/lib/garage/data
+    ports:
+      - "3910:3903"
     networks:
       dokploy-network:
         aliases:
